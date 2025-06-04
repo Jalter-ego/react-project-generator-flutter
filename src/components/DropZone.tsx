@@ -10,22 +10,22 @@ export type ComponentInstance = {
   y: number;
   properties?: {
     label?: string;
-    color?: string;
+    bg?: string;
     width?: number;
     height?: number;
-    placeholder?: string; // For TextField
-    checked?: boolean; // For Checkbox
+    placeholder?: string;
+    checked?: boolean;
+    borderRadius?: number;
+    fontSize?: number;
   };
 };
 
 export function DropZone({
   components,
-  updatePosition,
   selectedComponentId,
   setSelectedComponentId,
 }: {
   components: ComponentInstance[];
-  updatePosition: (id: string, x: number, y: number) => void;
   selectedComponentId: string | null;
   setSelectedComponentId: (id: string | null) => void;
 }) {
@@ -51,9 +51,9 @@ export function DropZone({
         </header>
 
         <main
-          className="bg-white w-full h-full relative 
-          bg-[linear-gradient(#eeefff_1px,transparent_1px),linear-gradient(90deg,#eeefff_1px,transparent_1px)]
+          className="bg-white w-full h-full relative
           bg-[size:20px_20px] text-zinc-800"
+          onClick={() => setSelectedComponentId(null)}
         >
           {components.map((comp) => {
             const Component = componentMap[comp.type];
@@ -63,7 +63,6 @@ export function DropZone({
                 id={comp.id}
                 x={comp.x}
                 y={comp.y}
-                updatePosition={updatePosition}
                 isSelected={selectedComponentId === comp.id}
                 onSelect={() => setSelectedComponentId(comp.id)}
               >
