@@ -1,110 +1,85 @@
-// App.tsx
 import { DndContext } from '@dnd-kit/core';
 import { DropZone, type ComponentInstance } from './components/DropZone';
-import { Draggable } from './components/Draggable';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { AppBar1, Button, Checkbox, TextField } from './components/ComponentLibrary';
-import { IconLock, IconMenuDeep, IconSearch, IconUser } from './assets/Icons';
+import SidebarComponents from './components/SidebarComponents';
+import SidebarPrimary from './components/SidebarPrimary';
 
-const items = ["button", "textfield", "checkbox", "appbar1",
-   "iconUser", "iconSearch", "iconLock","iconMenuDeep"];
-const icons = [
-  {
-    name: "iconUser",
-    icon: IconUser
-  },
-  {
-    name: "iconSearch",
-    icon: IconSearch
-  },
-  {
-    name: "iconLock",
-    icon: IconLock
-  },
-  {
-    name: "iconMenuDeep",
-    icon: IconMenuDeep
-  }
-];
+const items = ['button', 'textfield', 'checkbox', 'appbar1', 'iconUser', 'iconSearch', 'iconLock', 'iconMenuDeep'];
 
+const defaultProperties: Record<string, ComponentInstance['properties']> = {
+  button: { label: 'Botón', color: 'cyan-500', width: 128, height: 32 },
+  textfield: { placeholder: 'Campo de texto', width: 232, height: 32 },
+  checkbox: { checked: false },
+  appbar1: { width: 300, height: 32 },
+};
 
 export default function App() {
   const [components, setComponents] = useState<ComponentInstance[]>([]);
+  const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
 
   function handleDragEnd(event: any) {
     const { over, active, delta } = event;
 
     const isNewComponent = items.includes(active.id);
-    // Si es uno nuevo,se agrega si no pa fuera
     if (isNewComponent && over?.id === 'dropzone') {
-      setComponents(prev => [
+      setComponents((prev) => [
         ...prev,
         {
           id: uuidv4(),
           type: active.id,
           x: 50,
           y: 50,
+          properties: defaultProperties[active.id] || {},
         },
       ]);
     }
 
-    // Si ya esta, cambia su posicion nomas
     if (!isNewComponent) {
-      setComponents(prev =>
-        prev.map(comp =>
+      setComponents((prev) =>
+        prev.map((comp) =>
           comp.id === active.id
             ? {
-              ...comp,
-              x: comp.x + delta.x,
-              y: comp.y + delta.y,
-            }
+                ...comp,
+                x: comp.x + delta.x,
+                y: comp.y + delta.y,
+              }
             : comp
         )
       );
     }
   }
 
-
   function updatePosition(id: string, x: number, y: number) {
-    setComponents(prev =>
-      prev.map(comp =>
-        comp.id === id ? { ...comp, x, y } : comp
-      )
+    setComponents((prev) =>
+      prev.map((comp) => (comp.id === id ? { ...comp, x, y } : comp))
     );
   }
+
+  function updateComponentProperties(id: string, properties: ComponentInstance['properties']) {
+    setComponents((prev) =>
+      prev.map((comp) => (comp.id === id ? { ...comp, properties } : comp))
+    );
+  }
+
+  const selectedComponent = components.find((comp) => comp.id === selectedComponentId) || null;
 
   return (
     <div className="flex">
       <DndContext onDragEnd={handleDragEnd}>
-        <aside className="w-[250px] h-screen bg-[#1f1f1f] flex flex-col py-6 gap-4 border-r border-zinc-700 shadow-lg">
-
-          <header className='border-b border-zinc-600 w-full flex px-2 pb-3'>
-            <h1 className='font-semibold text-[14px]'>Componentes</h1>
-          </header>
-
-          <nav className="flex flex-col gap-2 px-2">
-            <Draggable id="button" label="Botón"><Button /></Draggable>
-            <Draggable id="textfield" label="Campo de texto"><TextField /></Draggable>
-            <Draggable id="checkbox" label="Checkbox"><Checkbox /></Draggable>
-            <Draggable id="appbar1" label="AppBar"><AppBar1 /></Draggable>
-          </nav>
-
-          {/* Sección de íconos en grid */}
-          <div className="px-2">
-            <h2 className="text-xs font-semibold text-zinc-400 mb-2">Iconos</h2>
-            <div className="grid grid-cols-3 gap-2">
-              {icons.map((Icon) => (
-                <Draggable key={Icon.name} id={Icon.name} label={Icon.name}>
-                  <Icon.icon />
-                </Draggable>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-
-        <DropZone components={components} updatePosition={updatePosition} />
+        <SidebarComponents />
+        <div className="flex w-full">
+          <DropZone
+            components={components}
+            updatePosition={updatePosition}
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+          />
+          <SidebarPrimary
+            selectedComponent={selectedComponent}
+            updateComponentProperties={updateComponentProperties}
+          />
+        </div>
       </DndContext>
     </div>
   );
