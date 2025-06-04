@@ -6,12 +6,16 @@ export function DraggableInsidePhone({
   x,
   y,
   children,
+  isSelected,
+  onSelect,
 }: {
   id: string;
   x: number;
   y: number;
   children: React.ReactNode;
   updatePosition: (id: string, x: number, y: number) => void;
+  isSelected: boolean;
+  onSelect: () => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id });
 
@@ -22,10 +26,20 @@ export function DraggableInsidePhone({
     transform: CSS.Translate.toString(transform),
     touchAction: 'none',
     zIndex: isDragging ? 1000 : 1,
+    border: isSelected ? '2px solid blue' : 'none',
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent deselecting when clicking component
+        onSelect();
+      }}
+    >
       {children}
     </div>
   );
