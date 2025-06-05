@@ -1,5 +1,4 @@
-import type { ScreenType } from '../types/CanvasItem';
-import type { ComponentInstance } from './DropZone';
+import type { ComponentInstance, ScreenType } from '../types/CanvasItem';
 
 export default function SidebarPrimary({
   selectedComponent,
@@ -63,28 +62,6 @@ export default function SidebarPrimary({
               </button>
             </>
           )}
-
-          {selectedComponent?.type === 'button' && (
-            <div>
-              <label className="text-sm font-medium">Navegar a pantalla</label>
-              <select
-                name="navigateTo"
-                value={selectedComponent.properties?.navigateTo || ''}
-                onChange={(e) => handlePropertyChange(e, 'string')}
-                className="w-full p-2 mt-1 bg-gray-700 text-white rounded-md"
-              >
-                <option value="">No navegar</option>
-                {screens
-                  .filter(screen => screen.id !== currentScreenId) // No mostrar la pantalla actual
-                  .map(screen => (
-                    <option key={screen.id} value={screen.id}>
-                      {screen.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-          )}
-
         </div>
       </section>
 
@@ -168,11 +145,13 @@ export default function SidebarPrimary({
                   className="w-full p-2 mt-1 bg-gray-700 text-white rounded-md"
                 >
                   <option value="">No navegar</option>
-                  {screens.map(screen => (
-                    <option key={screen.id} value={screen.id}>
-                      {screen.name}
-                    </option>
-                  ))}
+                  {screens
+                    .filter(screen => screen.id !== currentScreenId) // No mostrar la pantalla actual
+                    .map(screen => (
+                      <option key={screen.id} value={screen.id}>
+                        {screen.name}
+                      </option>
+                    ))}
                 </select>
               </div>
             )}

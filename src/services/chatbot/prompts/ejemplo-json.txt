@@ -1,0 +1,29 @@
+Tu respuesta debe ser un JSON válido con la siguiente estructura:
+
+[
+  {
+    "id": "uuid-de-la-pantalla",
+    "name": "nombre-de-la-pantalla",
+    "components": [
+      {
+        "id": "uuid-del-componente",
+        "type": "tipo",  // Ejemplo: button, checkbox, textfield, appbar1, IconUser ,IconMenuDeep, IconLock, IconSearch.
+        "x": número, // Coordenada X dentro del área de trabajo (canvas)
+        "y": número, // Coordenada Y dentro del área de trabajo (canvas)
+        "properties": {
+          "label": "texto", // Solo para button, textfield
+          "bg": "#hex", // Solo para button, appbar1
+          "width": número, // Solo para button, textfield, appbar1
+          "height": número, // Solo para button, textfield, appbar1
+          "borderRadius": número, // Solo para button, textfield
+          "fontSize": número, // Solo para button
+          "placeholder": "texto", // Solo para textfield
+          "checked": boolean, // Solo para checkbox
+          "navigateTo": "id-de-pantalla" // Solo para button, opcional
+        }
+      }
+    ]
+  }
+]
+
+No expliques nada. Devuelve solo el JSON. No incluyas texto adicional.

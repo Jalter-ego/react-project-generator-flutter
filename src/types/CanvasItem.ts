@@ -4,7 +4,7 @@ export interface ScreenType {
   components: ComponentInstance[];
 }
 
-export interface ComponentInstance {
+export type ComponentInstance = {
   id: string;
   type: string;
   x: number;
@@ -20,7 +20,7 @@ export interface ComponentInstance {
     fontSize?: number;
     navigateTo?: string;
   };
-}
+};
 
 export interface CanvasItem {
   id: string;

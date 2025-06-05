@@ -1,25 +1,8 @@
 import { useDroppable } from '@dnd-kit/core';
 import { IconBatery, IconSignal, IconWifi } from '../assets/Icons';
+import type { ComponentInstance } from '../types/CanvasItem';
 import { componentMap } from './ComponentLibrary';
 import { DraggableInsidePhone } from './DraggableInsidePhone';
-
-export type ComponentInstance = {
-  id: string;
-  type: string;
-  x: number;
-  y: number;
-  properties?: {
-    label?: string;
-    bg?: string;
-    width?: number;
-    height?: number;
-    placeholder?: string;
-    checked?: boolean;
-    borderRadius?: number;
-    fontSize?: number;
-    navigateTo?: string;
-  };
-};
 
 export function DropZone({
   components,

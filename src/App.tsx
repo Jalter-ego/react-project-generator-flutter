@@ -3,11 +3,11 @@ import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ChatbotSidebar from './components/chatbot/ChatbotSidebar';
-import { DropZone, type ComponentInstance } from './components/DropZone';
+import { DropZone } from './components/DropZone';
 import { ScreenManager } from './components/ScreenManager';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
-import type { ScreenType } from './types/CanvasItem';
+import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 
 const items = ['button', 'textfield', 'checkbox', 'appbar1', 'iconUser', 'iconSearch', 'iconLock', 'iconMenuDeep'];
 
@@ -42,13 +42,16 @@ export default function App() {
     localStorage.setItem('design-screens', JSON.stringify(screens));
   }, [screens]);
 
-  // Guardar historial
-  const saveHistory = (newScreens: ScreenType[]) => {
-    const newHistory = history.slice(0, historyIndex + 1);
-    newHistory.push(newScreens);
-    setHistory(newHistory);
-    setHistoryIndex(newHistory.length - 1);
+  // Función para actualizar las pantallas desde un JSON
+  const updateScreensFromJSON = (newScreens: ScreenType[]) => {
+    // Limpiar localStorage
+    localStorage.removeItem('design-screens');
     setScreens(newScreens);
+    setHistory([newScreens]);
+    setHistoryIndex(0);
+    setCurrentScreenId(newScreens[0]?.id || 'home');
+    setSelectedComponentId(null);
+    localStorage.setItem('design-screens', JSON.stringify(newScreens));
   };
 
   function handleDragEnd(event: DragEndEvent) {
@@ -95,6 +98,14 @@ export default function App() {
       });
       saveHistory(newScreens);
     }
+  }
+
+  function saveHistory(newScreens: ScreenType[]) {
+    const newHistory = history.slice(0, historyIndex + 1);
+    newHistory.push(newScreens);
+    setHistory(newHistory);
+    setHistoryIndex(newHistory.length - 1);
+    setScreens(newScreens);
   }
 
   function updateComponentProperties(id: string, properties: ComponentInstance['properties']) {
@@ -192,12 +203,14 @@ export default function App() {
     saveHistory(newScreens);
     setCurrentScreenId(newScreenId);
   };
+
   const navigateToScreen = (screenId: string) => {
     if (screens.some(screen => screen.id === screenId)) {
       setCurrentScreenId(screenId);
       setSelectedComponentId(null); // Deseleccionar al navegar
     }
   };
+
   const renameScreen = (id: string, newName: string) => {
     const newScreens = screens.map(screen => {
       if (screen.id === id) {
@@ -210,6 +223,7 @@ export default function App() {
     });
     saveHistory(newScreens);
   };
+
   return (
     <div className="flex h-screen bg-gray-900">
       <DndContext onDragEnd={handleDragEnd}>
@@ -268,7 +282,9 @@ export default function App() {
             />
           </div>
         </div>
-      <ChatbotSidebar />
+        <ChatbotSidebar
+          updateScreensFromJSON={updateScreensFromJSON}
+        />
       </DndContext>
     </div>
   );
