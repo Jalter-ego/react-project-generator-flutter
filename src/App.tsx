@@ -2,6 +2,7 @@ import { SignedIn, UserButton } from '@clerk/clerk-react';
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import ChatbotSidebar from './components/chatbot/ChatbotSidebar';
 import { DropZone, type ComponentInstance } from './components/DropZone';
 import { ScreenManager } from './components/ScreenManager';
 import SidebarComponents from './components/SidebarComponents';
@@ -197,7 +198,18 @@ export default function App() {
       setSelectedComponentId(null); // Deseleccionar al navegar
     }
   };
-
+  const renameScreen = (id: string, newName: string) => {
+    const newScreens = screens.map(screen => {
+      if (screen.id === id) {
+        return {
+          ...screen,
+          name: newName
+        };
+      }
+      return screen;
+    });
+    saveHistory(newScreens);
+  };
   return (
     <div className="flex h-screen bg-gray-900">
       <DndContext onDragEnd={handleDragEnd}>
@@ -207,6 +219,7 @@ export default function App() {
             currentScreenId={currentScreenId}
             setCurrentScreenId={setCurrentScreenId}
             onCreateNewScreen={createNewScreen}
+            onRenameScreen={renameScreen}
           />
           <SidebarComponents />
         </div>
@@ -255,6 +268,7 @@ export default function App() {
             />
           </div>
         </div>
+      <ChatbotSidebar />
       </DndContext>
     </div>
   );
