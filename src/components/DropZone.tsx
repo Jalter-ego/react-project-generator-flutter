@@ -1,7 +1,7 @@
 import { useDroppable } from '@dnd-kit/core';
+import { IconBatery, IconSignal, IconWifi } from '../assets/Icons';
 import { componentMap } from './ComponentLibrary';
 import { DraggableInsidePhone } from './DraggableInsidePhone';
-import { IconBatery, IconSignal, IconWifi } from '../assets/Icons';
 
 export type ComponentInstance = {
   id: string;
@@ -17,6 +17,7 @@ export type ComponentInstance = {
     checked?: boolean;
     borderRadius?: number;
     fontSize?: number;
+    navigateTo?: string;
   };
 };
 
@@ -24,10 +25,12 @@ export function DropZone({
   components,
   selectedComponentId,
   setSelectedComponentId,
+  navigateToScreen
 }: {
   components: ComponentInstance[];
   selectedComponentId: string | null;
   setSelectedComponentId: (id: string | null) => void;
+  navigateToScreen: (screenId: string) => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'dropzone' });
 
@@ -36,9 +39,8 @@ export function DropZone({
       <div
         ref={setNodeRef}
         className={`bg-white border-[10px] border-black rounded-[2rem] w-[320px] h-[650px]
-        grid grid-rows-[auto_1fr_auto] overflow-hidden relative shadow-2xl transition-all duration-200 ${
-          isOver ? 'ring-4 ring-blue-400' : ''
-        }`}
+        grid grid-rows-[auto_1fr_auto] overflow-hidden relative shadow-2xl transition-all duration-200 ${isOver ? 'ring-4 ring-blue-400' : ''
+          }`}
       >
         <header className="h-6 flex items-center justify-between px-4 text-zinc-800">
           <p className="text-[10px]">12:00</p>
@@ -65,6 +67,7 @@ export function DropZone({
                 y={comp.y}
                 isSelected={selectedComponentId === comp.id}
                 onSelect={() => setSelectedComponentId(comp.id)}
+                navigateToScreen={navigateToScreen}
               >
                 <Component {...comp.properties} />
               </DraggableInsidePhone>

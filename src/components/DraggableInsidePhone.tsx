@@ -1,6 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export function DraggableInsidePhone({
   id,
@@ -9,6 +9,7 @@ export function DraggableInsidePhone({
   children,
   isSelected,
   onSelect,
+  navigateToScreen
 }: {
   id: string;
   x: number;
@@ -16,6 +17,7 @@ export function DraggableInsidePhone({
   children: React.ReactNode;
   isSelected: boolean;
   onSelect: () => void;
+  navigateToScreen?: (screenId: string) => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id });
   const [isClicking, setIsClicking] = useState(false);
@@ -60,6 +62,23 @@ export function DraggableInsidePhone({
     border: isSelected ? '2px solid #3b82f6' : 'none',
     cursor: isDragging ? 'grabbing' : 'pointer',
   };
+  const childrenWithProps = React.Children.map(children, child => {
+    if (React.isValidElement(child)) {
+      const props = child.props as { navigateTo?: string };
+      if (props.navigateTo) {
+        return React.cloneElement(child, {
+          onClick: (e: React.MouseEvent) => {
+            e.stopPropagation();
+            if (navigateToScreen && props.navigateTo) {
+              navigateToScreen(props.navigateTo);
+            }
+          },
+          style: { cursor: 'pointer' }
+        } as Partial<unknown> & React.Attributes);
+      }
+    }
+    return child;
+  });
 
   return (
     <div
@@ -71,7 +90,7 @@ export function DraggableInsidePhone({
       onMouseUp={handleMouseUp}
       className="group relative"
     >
-      {children}
+      {childrenWithProps}
       {isSelected && (
         <div className="absolute -top-6 left-0 text-xs bg-blue-500 text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
           ID: {id.slice(0, 8)}

@@ -1,3 +1,4 @@
+import type { ScreenType } from '../types/CanvasItem';
 import type { ComponentInstance } from './DropZone';
 
 export default function SidebarPrimary({
@@ -5,11 +6,15 @@ export default function SidebarPrimary({
   updateComponentProperties,
   deleteComponent,
   duplicateComponent,
+  screens,
+  currentScreenId,
 }: {
   selectedComponent: ComponentInstance | null;
   updateComponentProperties: (id: string, properties: ComponentInstance['properties']) => void;
   deleteComponent: (id: string) => void;
   duplicateComponent: (id: string) => void;
+  screens: ScreenType[];
+  currentScreenId: string;
 }) {
   const handlePropertyChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -35,7 +40,7 @@ export default function SidebarPrimary({
   return (
     <aside className="bg-[#1f1f1f] border-l border-gray-700 w-80 px-6 text-white">
       <section className="flex flex-col gap-4 border-b border-gray-600 pb-4">
-        
+
         <div className="flex gap-2">
           <button
             className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
@@ -58,6 +63,28 @@ export default function SidebarPrimary({
               </button>
             </>
           )}
+
+          {selectedComponent?.type === 'button' && (
+            <div>
+              <label className="text-sm font-medium">Navegar a pantalla</label>
+              <select
+                name="navigateTo"
+                value={selectedComponent.properties?.navigateTo || ''}
+                onChange={(e) => handlePropertyChange(e, 'string')}
+                className="w-full p-2 mt-1 bg-gray-700 text-white rounded-md"
+              >
+                <option value="">No navegar</option>
+                {screens
+                  .filter(screen => screen.id !== currentScreenId) // No mostrar la pantalla actual
+                  .map(screen => (
+                    <option key={screen.id} value={screen.id}>
+                      {screen.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -131,17 +158,22 @@ export default function SidebarPrimary({
                 )}
               </>
             )}
-            {selectedComponent.type === 'button' && (
+            {selectedComponent?.type === 'button' && (
               <div>
-                <label className="text-sm font-medium">Font Size (px)</label>
-                <input
-                  type="number"
-                  name="fontSize"
-                  value={selectedComponent.properties?.fontSize || 16}
-                  onChange={(e) => handlePropertyChange(e, 'number')}
-                  className="w-full p-2 mt-1 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-blue-400 outline-none"
-                  min={8}
-                />
+                <label className="text-sm font-medium">Navegar a</label>
+                <select
+                  name="navigateTo"
+                  value={selectedComponent.properties?.navigateTo || ''}
+                  onChange={(e) => handlePropertyChange(e, 'string')}
+                  className="w-full p-2 mt-1 bg-gray-700 text-white rounded-md"
+                >
+                  <option value="">No navegar</option>
+                  {screens.map(screen => (
+                    <option key={screen.id} value={screen.id}>
+                      {screen.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             )}
             {selectedComponent.type === 'textfield' && (

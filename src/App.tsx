@@ -1,10 +1,12 @@
+import { SignedIn, UserButton } from '@clerk/clerk-react';
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
-import { DropZone, type ComponentInstance } from './components/DropZone';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { DropZone, type ComponentInstance } from './components/DropZone';
+import { ScreenManager } from './components/ScreenManager';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
-import { SignedIn, UserButton } from '@clerk/clerk-react';
+import type { ScreenType } from './types/CanvasItem';
 
 const items = ['button', 'textfield', 'checkbox', 'appbar1', 'iconUser', 'iconSearch', 'iconLock', 'iconMenuDeep'];
 
@@ -16,26 +18,36 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
 };
 
 export default function App() {
-  const [components, setComponents] = useState<ComponentInstance[]>(() => {
-    const saved = localStorage.getItem('design-components');
-    return saved ? JSON.parse(saved) : [];
+  const [screens, setScreens] = useState<ScreenType[]>(() => {
+    const saved = localStorage.getItem('design-screens');
+    return saved ? JSON.parse(saved) : [
+      {
+        id: 'home',
+        name: 'Pantalla Principal',
+        components: []
+      }
+    ];
   });
+
+  const [currentScreenId, setCurrentScreenId] = useState('home');
   const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
-  const [history, setHistory] = useState<ComponentInstance[][]>([components]);
+  const [history, setHistory] = useState<ScreenType[][]>([screens]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
 
-  // Guardar componentes en localStorage
+  const currentScreen = screens.find(screen => screen.id === currentScreenId) || screens[0];
+
+  // Guardar pantallas en localStorage
   useEffect(() => {
-    localStorage.setItem('design-components', JSON.stringify(components));
-  }, [components]);
+    localStorage.setItem('design-screens', JSON.stringify(screens));
+  }, [screens]);
 
   // Guardar historial
-  const saveHistory = (newComponents: ComponentInstance[]) => {
+  const saveHistory = (newScreens: ScreenType[]) => {
     const newHistory = history.slice(0, historyIndex + 1);
-    newHistory.push(newComponents);
+    newHistory.push(newScreens);
     setHistory(newHistory);
     setHistoryIndex(newHistory.length - 1);
-    setComponents(newComponents);
+    setScreens(newScreens);
   };
 
   function handleDragEnd(event: DragEndEvent) {
@@ -43,76 +55,118 @@ export default function App() {
 
     const isNewComponent = items.includes(active.id as string);
     if (isNewComponent && over?.id === 'dropzone') {
-      const newComponents = [
-        ...components,
-        {
-          id: uuidv4(),
-          type: active.id as string,
-          x: 50,
-          y: 50,
-          properties: defaultProperties[active.id as string] || {},
-        },
-      ];
-      saveHistory(newComponents);
-    } else {
-      console.log(`Moving component ${active.id} to new position`);
-      console.log(`Delta: x=${delta.x}, y=${delta.y}`);
-
-
-      setComponents((prev) =>
-        prev.map((comp) =>
-          comp.id === active.id
-            ? {
-              ...comp,
-              x: comp.x + delta.x,
-              y: comp.y + delta.y,
-            }
-            : comp
-        )
-      );
+      const newScreens = screens.map(screen => {
+        if (screen.id === currentScreenId) {
+          return {
+            ...screen,
+            components: [
+              ...screen.components,
+              {
+                id: uuidv4(),
+                type: active.id as string,
+                x: 50,
+                y: 50,
+                properties: defaultProperties[active.id as string] || {},
+              }
+            ]
+          };
+        }
+        return screen;
+      });
+      saveHistory(newScreens);
+    } else if (!isNewComponent) {
+      const newScreens = screens.map(screen => {
+        if (screen.id === currentScreenId) {
+          return {
+            ...screen,
+            components: screen.components.map(comp =>
+              comp.id === active.id
+                ? {
+                  ...comp,
+                  x: comp.x + delta.x,
+                  y: comp.y + delta.y,
+                }
+                : comp
+            )
+          };
+        }
+        return screen;
+      });
+      saveHistory(newScreens);
     }
   }
 
   function updateComponentProperties(id: string, properties: ComponentInstance['properties']) {
-    const newComponents = components.map((comp) =>
-      comp.id === id ? { ...comp, properties } : comp
-    );
-    saveHistory(newComponents);
+    const newScreens = screens.map(screen => {
+      if (screen.id === currentScreenId) {
+        return {
+          ...screen,
+          components: screen.components.map(comp =>
+            comp.id === id ? { ...comp, properties } : comp
+          )
+        };
+      }
+      return screen;
+    });
+    saveHistory(newScreens);
   }
 
   function deleteComponent(id: string) {
-    const newComponents = components.filter((comp) => comp.id !== id);
-    saveHistory(newComponents);
+    const newScreens = screens.map(screen => {
+      if (screen.id === currentScreenId) {
+        return {
+          ...screen,
+          components: screen.components.filter(comp => comp.id !== id)
+        };
+      }
+      return screen;
+    });
+    saveHistory(newScreens);
     if (selectedComponentId === id) setSelectedComponentId(null);
   }
 
   function duplicateComponent(id: string) {
-    const component = components.find((comp) => comp.id === id);
-    if (component) {
-      const newComponents = [
-        ...components,
-        { ...component, id: uuidv4(), x: component.x + 20, y: component.y + 20 },
-      ];
-      saveHistory(newComponents);
-    }
+    const newScreens = screens.map(screen => {
+      if (screen.id === currentScreenId) {
+        const component = screen.components.find(comp => comp.id === id);
+        if (component) {
+          return {
+            ...screen,
+            components: [
+              ...screen.components,
+              {
+                ...component,
+                id: uuidv4(),
+                x: component.x + 20,
+                y: component.y + 20
+              }
+            ]
+          };
+        }
+      }
+      return screen;
+    });
+    saveHistory(newScreens);
   }
 
   function undo() {
     if (historyIndex > 0) {
-      setHistoryIndex((prev) => prev - 1);
-      setComponents(history[historyIndex - 1]);
+      const newIndex = historyIndex - 1;
+      setHistoryIndex(newIndex);
+      setScreens(history[newIndex]);
     }
   }
 
   function redo() {
     if (historyIndex < history.length - 1) {
-      setHistoryIndex((prev) => prev + 1);
-      setComponents(history[historyIndex + 1]);
+      const newIndex = historyIndex + 1;
+      setHistoryIndex(newIndex);
+      setScreens(history[newIndex]);
     }
   }
 
   function exportDesign() {
-    const json = JSON.stringify(components, null, 2);
+    const json = JSON.stringify(screens, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -122,12 +176,40 @@ export default function App() {
     URL.revokeObjectURL(url);
   }
 
-  const selectedComponent = components.find((comp) => comp.id === selectedComponentId) || null;
+  const selectedComponent = currentScreen.components.find(comp => comp.id === selectedComponentId) || null;
+
+  const createNewScreen = () => {
+    const newScreenId = uuidv4();
+    const newScreens = [
+      ...screens,
+      {
+        id: newScreenId,
+        name: `Pantalla ${screens.length + 1}`,
+        components: []
+      }
+    ];
+    saveHistory(newScreens);
+    setCurrentScreenId(newScreenId);
+  };
+  const navigateToScreen = (screenId: string) => {
+    if (screens.some(screen => screen.id === screenId)) {
+      setCurrentScreenId(screenId);
+      setSelectedComponentId(null); // Deseleccionar al navegar
+    }
+  };
 
   return (
     <div className="flex h-screen bg-gray-900">
       <DndContext onDragEnd={handleDragEnd}>
-        <SidebarComponents />
+        <div className="flex">
+          <ScreenManager
+            screens={screens}
+            currentScreenId={currentScreenId}
+            setCurrentScreenId={setCurrentScreenId}
+            onCreateNewScreen={createNewScreen}
+          />
+          <SidebarComponents />
+        </div>
         <div className="flex flex-col flex-1">
           <div className="bg-[#1f1f1f] p-3 flex justify-between items-center">
             <div className="flex gap-2">
@@ -158,15 +240,18 @@ export default function App() {
           </div>
           <div className="flex flex-1">
             <DropZone
-              components={components}
+              components={currentScreen.components}
               selectedComponentId={selectedComponentId}
               setSelectedComponentId={setSelectedComponentId}
+              navigateToScreen={navigateToScreen}
             />
             <SidebarPrimary
               selectedComponent={selectedComponent}
               updateComponentProperties={updateComponentProperties}
               deleteComponent={deleteComponent}
               duplicateComponent={duplicateComponent}
+              screens={screens}
+              currentScreenId={currentScreenId}
             />
           </div>
         </div>

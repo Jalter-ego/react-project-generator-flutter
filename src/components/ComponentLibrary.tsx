@@ -7,6 +7,7 @@ export function Button({
   height = 32,
   borderRadius = 12,
   fontSize = 16,
+  onClick
 }: {
   label?: string;
   bg?: string;
@@ -14,6 +15,7 @@ export function Button({
   height?: number;
   borderRadius?: number;
   fontSize?: number;
+  onClick?: () => void;
 }) {
   return (
     <button
@@ -25,6 +27,7 @@ export function Button({
         borderRadius: `${borderRadius}px`,
         fontSize: `${fontSize}px`,
       }}
+      onClick={onClick}
     >
       {label}
     </button>
