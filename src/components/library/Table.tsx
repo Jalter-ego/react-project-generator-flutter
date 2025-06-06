@@ -1,3 +1,5 @@
+import type { ComponentInstanceTable } from "../../types/CanvasItem";
+
 export const header = [
   {
   title: "columan1",
@@ -27,8 +29,13 @@ export const data = [
     columan3: "data9"
   }
 ]
-export function Table({header,data}: 
-  {header: {title: string}[], data: {columan1: string, columan2: string, columan3: string}[]}) {
+export function Table( props:any) {
+
+  const { table }: { table: ComponentInstanceTable } = props;
+  const { header, data } = table;
+  
+  
+  
   return(
     <div className="overflow-x-auto rounded-t-xl">
       <table className="min-w-full divide-y divide-gray-200">

@@ -7,31 +7,43 @@ export default function TableProperties({
   updateComponentProperties,
 }: PropertiesEditorProps) {
   const handleHeaderChange = (index: number, value: string) => {
-    const newHeader = [...(selectedComponent.properties?.header || [])];
+    const newHeader = [...(selectedComponent.properties?.table?.header || [])];
     newHeader[index] = { title: value };
     updateComponentProperties(selectedComponent.id, {
       ...selectedComponent.properties,
-      header: newHeader,
+      table: {
+        ...selectedComponent.properties?.table,
+        header: newHeader,
+        data: selectedComponent.properties?.table?.data || [],
+      },
     });
   };
 
   const addColumn = () => {
     const newHeader = [
-      ...(selectedComponent.properties?.header || []),
-      { title: `Column ${(selectedComponent.properties?.header?.length ?? 0) + 1}` },
+      ...(selectedComponent.properties?.table?.header || []),
+      { title: `Column ${(selectedComponent.properties?.table?.header?.length ?? 0) + 1}` },
     ];
     updateComponentProperties(selectedComponent.id, {
       ...selectedComponent.properties,
-      header: newHeader,
+      table: {
+        ...selectedComponent.properties?.table,
+        header: newHeader,
+        data: selectedComponent.properties?.table?.data || [],
+      },
     });
   };
 
   const removeColumn = () => {
-    const newHeader = [...(selectedComponent.properties?.header || [])];
+    const newHeader = [...(selectedComponent.properties?.table?.header || [])];
     newHeader.pop();
     updateComponentProperties(selectedComponent.id, {
       ...selectedComponent.properties,
-      header: newHeader,
+      table: {
+        ...selectedComponent.properties?.table,
+        header: newHeader,
+        data: selectedComponent.properties?.table?.data || [],
+      },
     });
   };
 
@@ -39,7 +51,7 @@ export default function TableProperties({
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium">Headers</label>
-        {selectedComponent.properties?.header?.map((col, index) => (
+        {selectedComponent.properties?.table?.header?.map((col, index) => (
           <input
             key={index}
             type="text"
