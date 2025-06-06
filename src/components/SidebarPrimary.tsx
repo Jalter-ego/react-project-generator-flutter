@@ -3,6 +3,7 @@ import type { ComponentInstance, ScreenType } from '../types/CanvasItem';
 import type { PropertiesEditorProps } from '../types/ComponentsPropertiesEditor';
 import ButtonProperties from './properties/ButtonProperties';
 import CardProperties from './properties/CardProperties';
+import ContainerProperties from './properties/containerProperties';
 import TableProperties from './properties/TableProperties';
 import TextfieldProperties from './properties/TextfieldProperties';
 
@@ -10,7 +11,8 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   button: ButtonProperties,
   textfield: TextfieldProperties,
   table: TableProperties,
-  card: CardProperties
+  card: CardProperties,
+  container: ContainerProperties
 };
 
 export default function SidebarPrimary({

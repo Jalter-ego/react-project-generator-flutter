@@ -12,7 +12,7 @@ import SidebarPrimary from './components/SidebarPrimary';
 import { DropZone } from './components/DropZone';
 
 const items = ['button', 'textfield', 'checkbox', 'appbar1',
-   'iconUser', 'iconSearch', 'iconLock', 'iconMenuDeep','table','card','calendar'];
+   'iconUser', 'iconSearch', 'iconLock', 'iconMenuDeep','table','card','calendar','container'];
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -21,6 +21,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   appbar1: { width: 300, height: 32, bg: '#ffffff' },
   table: { table: { header, data } },
   card: { card: { title: 'Card Title', image: '', description: 'Card Description', price: 0 } },
+  container: { bg: '#e37', width: 300, height: 200, borderRadius: 12 }, 
 };
 
 export default function App() {

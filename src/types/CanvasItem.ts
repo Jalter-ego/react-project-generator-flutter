@@ -36,6 +36,7 @@ export type ComponentInstanceCard = {
   price: number;
 }
 
+
 export interface CanvasItem {
   id: string;
   type: string;

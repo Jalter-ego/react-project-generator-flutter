@@ -50,6 +50,12 @@ export const components = [
         label: "Calendar",
         icon: IconCalendar,
         bg: "#18181b",
+    },
+    {
+        id: "container",
+        label: "Container",
+        icon: IconTable,
+        bg: "#18181b",
     }
 ]
 
