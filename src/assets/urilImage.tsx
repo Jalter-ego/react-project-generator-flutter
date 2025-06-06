@@ -1,0 +1,1 @@
+export const urlimage="https://res.cloudinary.com/dxtic2eyg/image/upload/v1733242729/iguw7dmcblnckkdnjm9g.jpg";

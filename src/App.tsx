@@ -3,6 +3,7 @@ import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { urlimage } from './assets/urilImage';
 import ChatbotSidebar from './components/chatbot/ChatbotSidebar';
 import { DropZone } from './components/DropZone';
 import { data, header } from './components/library/Table';
@@ -20,10 +21,10 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   checkbox: { checked: false },
   appbar1: { width: 300, height: 32, bg: '#ffffff' },
   table: { table: { header, data } },
-  card: { card: { title: 'Card Title', image: '', description: 'Card Description', price: 0 } },
+  card: { card: { title: 'Card Title', image: urlimage, description: 'Card Description', price: 0 } },
   container: { bg: '#e37', width: 300, height: 200, borderRadius: 12 },
   label: { label: "Etiqueta", fontSize: 16, bg: "#ffffff", width: 120, height: 30, },
-  image: { image: "https://via.placeholder.com/150", width: 120, height: 120, borderRadius: 12, },
+  image: { image: urlimage, width: 120, height: 120, borderRadius: 12, },
 };
 
 export default function App() {
