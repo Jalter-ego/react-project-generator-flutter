@@ -12,8 +12,46 @@ import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 
-const items = ['button', 'textfield', 'checkbox', 'appbar1', 'iconUser', 'iconSearch', 'iconLock',
-  'iconMenuDeep', 'table', 'card', 'calendar', 'container', 'label', 'image',];
+const items = [
+  'button',
+  'textfield',
+  'checkbox',
+  'appbar1',
+  'iconUser',
+  'iconSearch',
+  'iconLock',
+  'iconMenuDeep',
+  'table',
+  'card',
+  'calendar',
+  'container',
+  'label',
+  'image',
+  'iconMenuDots',
+  'iconHeart',
+  'iconMessage',
+  'iconHeadphones',
+  'iconLogin',
+  'iconLogout',
+  'iconAdd',
+  'iconTag',
+  'iconShare',
+  'iconDotsHorizontal',
+  'iconPlane',
+  'iconImage',
+  'iconText',
+  'iconEmoji',
+  'iconMicrophone',
+  'iconArrowUp',
+  'iconArrowDown',
+  'iconArrowLeft',
+  'iconArrowRight',
+  'iconArrowUpDown',
+  'iconTrash',
+  'iconPencil',
+  'iconX',
+  'iconGoogle',
+];
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },

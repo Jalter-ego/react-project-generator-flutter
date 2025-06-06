@@ -1,4 +1,38 @@
-import { IconCalendar, IconCard, IconLabel, IconLock, IconMenuDeep, IconSearch, IconTable, IconUser } from "../assets/Icons";
+import {
+    IconAdd,
+    IconArrowDown,
+    IconArrowLeft,
+    IconArrowRight,
+    IconArrowUp,
+    IconArrowUpDown,
+    IconCalendar,
+    IconCard,
+    IconDotsHorizontal,
+    IconEmoji,
+    IconGoogle,
+    IconHeadphones,
+    IconHeart,
+    IconImage,
+    IconLabel,
+    IconLock,
+    IconLogin,
+    IconLogout,
+    IconMenuDeep,
+    IconMenuDots,
+    IconMessage,
+    IconMicrophone,
+    IconPencil,
+    IconPlane,
+    IconSearch,
+    IconShare,
+    IconTable,
+    IconTag,
+    IconText,
+    IconTrash,
+    IconUser,
+    IconX
+} from "../assets/Icons";
+
 import { AppBar1, Button, Checkbox, TextField } from "./ComponentLibrary";
 import { Draggable } from "./Draggable";
 import { Table } from "./library/Table";
@@ -73,25 +107,35 @@ export const components = [
 
 export default function SidebarComponents() {
     const icons = [
-        {
-            name: "iconUser",
-            icon: IconUser
-        },
-        {
-            name: "iconSearch",
-            icon: IconSearch
-        },
-        {
-            name: "iconLock",
-            icon: IconLock
-        },
-        {
-            name: "iconMenuDeep",
-            icon: IconMenuDeep
-        }
+        { name: "iconUser", icon: IconUser },
+        { name: "iconSearch", icon: IconSearch },
+        { name: "iconLock", icon: IconLock },
+        { name: "iconMenuDeep", icon: IconMenuDeep },
+        { name: "iconMenuDots", icon: IconMenuDots },
+        { name: "iconHeart", icon: IconHeart },
+        { name: "iconMessage", icon: IconMessage },
+        { name: "iconHeadphones", icon: IconHeadphones },
+        { name: "iconLogin", icon: IconLogin },
+        { name: "iconLogout", icon: IconLogout },
+        { name: "iconAdd", icon: IconAdd },
+        { name: "iconTag", icon: IconTag },
+        { name: "iconShare", icon: IconShare },
+        { name: "iconDotsHorizontal", icon: IconDotsHorizontal },
+        { name: "iconPlane", icon: IconPlane },
+        { name: "iconImage", icon: IconImage },
+        { name: "iconText", icon: IconText },
+        { name: "iconEmoji", icon: IconEmoji },
+        { name: "iconMicrophone", icon: IconMicrophone },
+        { name: "iconArrowUp", icon: IconArrowUp },
+        { name: "iconArrowDown", icon: IconArrowDown },
+        { name: "iconArrowLeft", icon: IconArrowLeft },
+        { name: "iconArrowRight", icon: IconArrowRight },
+        { name: "iconArrowUpDown", icon: IconArrowUpDown },
+        { name: "iconTrash", icon: IconTrash },
+        { name: "iconPencil", icon: IconPencil },
+        { name: "iconX", icon: IconX },
+        { name: "iconGoogle", icon: IconGoogle }
     ];
-
-
 
     return (
         <aside className="w-[250px] h-screen overflow-y-auto bg-[#1f1f1f] flex flex-col py-6 gap-4 border-r border-zinc-700 shadow-lg">
