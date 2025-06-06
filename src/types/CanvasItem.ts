@@ -21,6 +21,7 @@ export type ComponentInstance = {
     navigateTo?: string;
     table?: ComponentInstanceTable
     card?: ComponentInstanceCard;
+    image?: string;
   };
 };
 

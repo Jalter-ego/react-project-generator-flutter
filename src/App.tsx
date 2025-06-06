@@ -12,7 +12,7 @@ import SidebarPrimary from './components/SidebarPrimary';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 
 const items = ['button', 'textfield', 'checkbox', 'appbar1', 'iconUser', 'iconSearch', 'iconLock',
-  'iconMenuDeep', 'table', 'card', 'calendar', 'container', 'label'];
+  'iconMenuDeep', 'table', 'card', 'calendar', 'container', 'label', 'image',];
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -23,6 +23,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   card: { card: { title: 'Card Title', image: '', description: 'Card Description', price: 0 } },
   container: { bg: '#e37', width: 300, height: 200, borderRadius: 12 },
   label: { label: "Etiqueta", fontSize: 16, bg: "#ffffff", width: 120, height: 30, },
+  image: { image: "https://via.placeholder.com/150", width: 120, height: 120, borderRadius: 12, },
 };
 
 export default function App() {

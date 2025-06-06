@@ -62,6 +62,12 @@ export const components = [
         label: "Label",
         icon: IconLabel,
         bg: "#18181b",
+    },
+    {
+        id: "image",
+        label: "Image",
+        icon: IconTable,
+        bg: "#18181b",
     }
 ]
 

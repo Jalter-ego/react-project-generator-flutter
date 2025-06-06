@@ -2,6 +2,7 @@ import { IconLock, IconMenuDeep, IconSearch, IconUser } from '../assets/Icons';
 import CalendarComponent from './library/Calendar';
 import Card from './library/Card';
 import Container from './library/Container';
+import ImageComponent from './library/Image';
 import Label from './library/Label';
 import { Table } from './library/Table';
 
@@ -111,4 +112,5 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   calendar: CalendarComponent,
   container: Container,
   label: Label,
+  image: ImageComponent,
 };
