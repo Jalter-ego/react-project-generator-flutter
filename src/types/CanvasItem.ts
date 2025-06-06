@@ -19,6 +19,8 @@ export type ComponentInstance = {
     borderRadius?: number;
     fontSize?: number;
     navigateTo?: string;
+    header?: {title:string}[];
+    data?: Record<string, string>[];
   };
 };
 

@@ -8,7 +8,7 @@
   color-scheme: light dark;
   background-color: #dde4e8;
 
-  scrollbar-color: var(--color-primary) var(--color-secondary);
+  scrollbar-color: #777777 var(--color-secondary);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
