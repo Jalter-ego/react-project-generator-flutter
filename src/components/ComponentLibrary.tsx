@@ -1,4 +1,5 @@
 import { IconLock, IconMenuDeep, IconSearch, IconUser } from '../assets/Icons';
+import CalendarComponent from './library/Calendar';
 import Card from './library/Card';
 import { Table } from './library/Table';
 
@@ -104,5 +105,6 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   iconLock: IconLock,
   iconMenuDeep: IconMenuDeep,
   table: Table,
-  card: Card
+  card: Card,
+  calendar: CalendarComponent
 };
