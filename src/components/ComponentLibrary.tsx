@@ -1,4 +1,5 @@
 import { IconLock, IconMenuDeep, IconSearch, IconUser } from '../assets/Icons';
+import { Table } from './library/Table';
 
 export function Button({
   label = 'Botón',
@@ -91,6 +92,7 @@ export function AppBar1({
   );
 }
 
+
 export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   button: Button,
   textfield: TextField,
@@ -100,4 +102,5 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   iconSearch: IconSearch,
   iconLock: IconLock,
   iconMenuDeep: IconMenuDeep,
+  table: Table,
 };

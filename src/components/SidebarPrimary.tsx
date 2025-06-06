@@ -179,6 +179,61 @@ export default function SidebarPrimary({
                 />
               </div>
             )}
+            {selectedComponent.type === 'table' && (
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium">Headers</label>
+                {selectedComponent.properties?.header?.map((col, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    value={col.title}
+                    onChange={(e) => {
+                      const newHeader = [...(selectedComponent.properties?.header || [])];
+                      newHeader[index] = { title: e.target.value };
+                      updateComponentProperties(selectedComponent.id, {
+                        ...selectedComponent.properties,
+                        header: newHeader,
+                      });
+                    }}
+                    className="w-full p-2 bg-gray-700 text-white rounded-md"
+                  />
+                ))}
+                <div className='flex gap-2 w-full items-center justify-between'>
+
+                  <button
+                    className="w-full  mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 rounded-md"
+                    onClick={() => {
+                      const newHeader = [
+                        ...(selectedComponent.properties?.header || []),
+                        { title: `Column ${(selectedComponent.properties?.header?.length ?? 0) + 1}` },
+                      ];
+                      updateComponentProperties(selectedComponent.id, {
+                        ...selectedComponent.properties,
+                        header: newHeader,
+                      });
+                    }}
+                  >
+                    Añadir columna
+                  </button>
+                  <button
+                    className="w-full mt-2 bg-red-500 hover:bg-red-600 text-white py-1 rounded-md"
+                    onClick={() => {
+                      const newHeader = [
+                        ...(selectedComponent.properties?.header || []),
+                      ];
+                      newHeader.pop();
+                      updateComponentProperties(selectedComponent.id, {
+                        ...selectedComponent.properties,
+                        header: newHeader,
+                      });
+                    }}
+                  >
+                    Eliminar columna
+                  </button>
+                </div>
+              </div>
+            )}
+
           </div>
         ) : (
           <p className="text-gray-400">Select a component to edit its properties</p>
