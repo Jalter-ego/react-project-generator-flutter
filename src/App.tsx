@@ -7,7 +7,6 @@ import { urlimage } from './assets/urlImage';
 import ChatbotSidebar from './components/chatbot/ChatbotSidebar';
 import { DropZone } from './components/DropZone';
 import { data, header } from './components/library/Table';
-import { ScreenManager } from './components/ScreenManager';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
@@ -20,7 +19,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   table: { table: { header, data } },
   card: { card: { title: 'Card Title', image: urlimage, description: 'Card Description', price: 0 } },
   container: { bg: '#e37', width: 300, height: 200, borderRadius: 12 },
-  label: { label: "Etiqueta", fontSize: 16, colorFont: "#000000"},
+  label: { label: "Etiqueta", fontSize: 16, colorFont: "#000000" },
   image: { image: urlimage, width: 120, height: 120, borderRadius: 12, },
 
 };
@@ -236,14 +235,13 @@ export default function App() {
     <div className="flex h-screen bg-gray-900">
       <DndContext onDragEnd={handleDragEnd}>
         <div className="flex h-screen">
-          <ScreenManager
+          <SidebarComponents
             screens={screens}
             currentScreenId={currentScreenId}
             setCurrentScreenId={setCurrentScreenId}
             onCreateNewScreen={createNewScreen}
             onRenameScreen={renameScreen}
           />
-          <SidebarComponents />
         </div>
         <div className="flex flex-col flex-1">
           <div className="bg-[#1f1f1f] p-3 flex justify-between items-center">

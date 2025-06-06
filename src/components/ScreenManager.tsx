@@ -1,3 +1,4 @@
+import { IconPencil } from '@/assets/Icons';
 import { useState } from 'react';
 import type { ScreenType } from '../types/CanvasItem';
 
@@ -6,7 +7,7 @@ export function ScreenManager({
     currentScreenId,
     setCurrentScreenId,
     onCreateNewScreen,
-    onRenameScreen
+    onRenameScreen,
 }: {
     screens: ScreenType[];
     currentScreenId: string;
@@ -23,71 +24,70 @@ export function ScreenManager({
     };
 
     const handleSaveEdit = (id: string) => {
-        if (newName.trim()) {
+        if (newName.trim() && newName.trim() !== screens.find(s => s.id === id)?.name) {
             onRenameScreen(id, newName.trim());
         }
         setEditingId(null);
     };
+
     return (
-        <div className="p-4 bg-gray-800">
-            <div className="flex items-center gap-2 mb-4">
-                <h3 className="font-medium">Pantallas</h3>
+        <div className="flex flex-col gap-2 px-2">
+            <div className="flex items-center justify-between">
+                <h3 className="text-xs font-semibold text-zinc-400">Pantallas</h3>
                 <button
                     onClick={onCreateNewScreen}
-                    className="px-2 py-1 bg-blue-500 rounded-md text-sm"
+                    className="text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
                     + Nueva
                 </button>
             </div>
-            <div className="flex flex-col gap-2">
-                {screens.map(screen => (
+
+            {screens.map((screen) => {
+                const isEditing = editingId === screen.id;
+
+                return (
                     <div
                         key={screen.id}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-md ${currentScreenId === screen.id
-                                ? 'bg-blue-600'
-                                : 'bg-gray-700 hover:bg-gray-600'
+                        className={`group flex items-center gap-2 px-2 py-1 rounded text-sm transition-colors ${currentScreenId === screen.id
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-zinc-700 text-zinc-300'
                             }`}
                     >
-                        {editingId === screen.id ? (
-                            <>
-                                <input
-                                    type="text"
-                                    value={newName}
-                                    onChange={(e) => setNewName(e.target.value)}
-                                    onBlur={() => handleSaveEdit(screen.id)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') handleSaveEdit(screen.id);
-                                        if (e.key === 'Escape') setEditingId(null);
-                                    }}
-                                    autoFocus
-                                    className="flex-1 bg-gray-800 text-white px-2 py-1 rounded border border-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                                />
-                                <button
-                                    onClick={() => handleSaveEdit(screen.id)}
-                                    className="text-xs bg-green-500 px-2 py-1 rounded"
-                                >
-                                    ✓
-                                </button>
-                            </>
+                        {isEditing ? (
+                            <input
+                                type="text"
+                                value={newName}
+                                onChange={(e) => setNewName(e.target.value)}
+                                onBlur={() => handleSaveEdit(screen.id)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') handleSaveEdit(screen.id);
+                                    if (e.key === 'Escape') setEditingId(null);
+                                }}
+                                autoFocus
+                                className="flex-1 bg-transparent border border-zinc-500 rounded px-2 py-0.5 text-white outline-none"
+                            />
                         ) : (
                             <>
                                 <button
                                     onClick={() => setCurrentScreenId(screen.id)}
-                                    className="flex-1 text-left"
+                                    onDoubleClick={() => handleStartEditing(screen)}
+                                    className="flex-1 text-left truncate"
+                                    title="Doble clic para editar"
                                 >
                                     {screen.name}
                                 </button>
                                 <button
                                     onClick={() => handleStartEditing(screen)}
-                                    className="text-xs bg-gray-600 hover:bg-gray-500 px-2 py-1 rounded"
+                                    className="text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                                    title="Editar"
                                 >
-                                    ✏️
+                                    <IconPencil />
                                 </button>
                             </>
                         )}
                     </div>
-                ))}
-            </div>
+                );
+            })}
         </div>
     );
 }

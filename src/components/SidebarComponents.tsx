@@ -1,12 +1,32 @@
+import type { ScreenType } from "@/types/CanvasItem";
 import { Draggable } from "./Draggable";
+import { ScreenManager } from "./ScreenManager";
 import { components } from "./sidebarComponents/Components";
 import { icons } from "./sidebarComponents/Icons";
 
-export default function SidebarComponents() {
+export default function SidebarComponents({
+    screens,
+    currentScreenId,
+    setCurrentScreenId,
+    onCreateNewScreen,
+    onRenameScreen
+}: {
+    screens: ScreenType[];
+    currentScreenId: string;
+    setCurrentScreenId: (id: string) => void;
+    onCreateNewScreen: () => void;
+    onRenameScreen: (id: string, newName: string) => void;
+}) {
 
     return (
         <aside className="w-[250px] h-screen overflow-y-auto bg-[#1f1f1f] flex flex-col py-6 gap-4 border-r border-zinc-700 shadow-lg">
-
+            <ScreenManager
+                screens={screens}
+                currentScreenId={currentScreenId}
+                setCurrentScreenId={setCurrentScreenId}
+                onCreateNewScreen={onCreateNewScreen}
+                onRenameScreen={onRenameScreen}
+            />
             <header className='border-b border-zinc-600 w-full flex px-2 pb-3'>
                 <h1 className='font-semibold text-[14px]'>Componentes</h1>
             </header>
