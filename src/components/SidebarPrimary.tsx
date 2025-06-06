@@ -1,9 +1,9 @@
-// components/SidebarPrimary.tsx
 import type { ComponentInstance, ScreenType } from '../types/CanvasItem';
 import type { PropertiesEditorProps } from '../types/ComponentsPropertiesEditor';
 import ButtonProperties from './properties/ButtonProperties';
 import CardProperties from './properties/CardProperties';
 import ContainerProperties from './properties/containerProperties';
+import LabelProperties from './properties/LabelProperties';
 import TableProperties from './properties/TableProperties';
 import TextfieldProperties from './properties/TextfieldProperties';
 
@@ -12,7 +12,8 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   textfield: TextfieldProperties,
   table: TableProperties,
   card: CardProperties,
-  container: ContainerProperties
+  container: ContainerProperties,
+  label: LabelProperties,
 };
 
 export default function SidebarPrimary({

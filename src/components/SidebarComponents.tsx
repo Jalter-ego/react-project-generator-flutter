@@ -1,4 +1,4 @@
-import { IconCalendar, IconCard, IconLock, IconMenuDeep, IconSearch, IconTable, IconUser } from "../assets/Icons";
+import { IconCalendar, IconCard, IconLabel, IconLock, IconMenuDeep, IconSearch, IconTable, IconUser } from "../assets/Icons";
 import { AppBar1, Button, Checkbox, TextField } from "./ComponentLibrary";
 import { Draggable } from "./Draggable";
 import { Table } from "./library/Table";
@@ -56,6 +56,12 @@ export const components = [
         label: "Container",
         icon: IconTable,
         bg: "#18181b",
+    },
+    {
+        id: "label",
+        label: "Label",
+        icon: IconLabel,
+        bg: "#18181b",
     }
 ]
 
@@ -101,7 +107,7 @@ export default function SidebarComponents() {
                              text-white hover:scale-[1.02] transition-transform "
                             style={{ backgroundColor: component.bg }}
                         >
-                            <component.icon/>
+                            <component.icon />
                             <span className="text-[12px] font-medium">{component.label}</span>
                         </div>
                     </Draggable>

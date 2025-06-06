@@ -2,6 +2,7 @@ import { IconLock, IconMenuDeep, IconSearch, IconUser } from '../assets/Icons';
 import CalendarComponent from './library/Calendar';
 import Card from './library/Card';
 import Container from './library/Container';
+import Label from './library/Label';
 import { Table } from './library/Table';
 
 export function Button({
@@ -108,5 +109,6 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   table: Table,
   card: Card,
   calendar: CalendarComponent,
-  container: Container
+  container: Container,
+  label: Label,
 };
