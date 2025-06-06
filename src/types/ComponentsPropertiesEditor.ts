@@ -1,4 +1,3 @@
-// types/ComponentPropertiesEditor.ts
 import type { ComponentInstance, ScreenType } from '../types/CanvasItem';
 
 export interface PropertiesEditorProps {

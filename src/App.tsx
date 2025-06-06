@@ -2,8 +2,8 @@ import { SignedIn, UserButton } from '@clerk/clerk-react';
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
-import { urlimage } from './assets/urilImage';
+import { itemsIcons } from './assets/itemIcons';
+import { urlimage } from './assets/urlImage';
 import ChatbotSidebar from './components/chatbot/ChatbotSidebar';
 import { DropZone } from './components/DropZone';
 import { data, header } from './components/library/Table';
@@ -11,47 +11,6 @@ import { ScreenManager } from './components/ScreenManager';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
-
-const items = [
-  'button',
-  'textfield',
-  'checkbox',
-  'appbar1',
-  'iconUser',
-  'iconSearch',
-  'iconLock',
-  'iconMenuDeep',
-  'table',
-  'card',
-  'calendar',
-  'container',
-  'label',
-  'image',
-  'iconMenuDots',
-  'iconHeart',
-  'iconMessage',
-  'iconHeadphones',
-  'iconLogin',
-  'iconLogout',
-  'iconAdd',
-  'iconTag',
-  'iconShare',
-  'iconDotsHorizontal',
-  'iconPlane',
-  'iconImage',
-  'iconText',
-  'iconEmoji',
-  'iconMicrophone',
-  'iconArrowUp',
-  'iconArrowDown',
-  'iconArrowLeft',
-  'iconArrowRight',
-  'iconArrowUpDown',
-  'iconTrash',
-  'iconPencil',
-  'iconX',
-  'iconGoogle',
-];
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -105,7 +64,7 @@ export default function App() {
   function handleDragEnd(event: DragEndEvent) {
     const { over, active, delta } = event;
 
-    const isNewComponent = items.includes(active.id as string);
+    const isNewComponent = itemsIcons.includes(active.id as string);
     if (isNewComponent && over?.id === 'dropzone') {
       const newScreens = screens.map(screen => {
         if (screen.id === currentScreenId) {
