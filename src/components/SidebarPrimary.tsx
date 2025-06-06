@@ -3,7 +3,7 @@ import type { ComponentInstance, ScreenType } from '../types/CanvasItem';
 import type { PropertiesEditorProps } from '../types/ComponentsPropertiesEditor';
 import ButtonProperties from './properties/ButtonProperties';
 import TableProperties from './properties/TableProperties';
-import TextfieldProperties from './properties/TextFieldProperties';
+import TextfieldProperties from './properties/TextfieldProperties';
 
 const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   button: ButtonProperties,
