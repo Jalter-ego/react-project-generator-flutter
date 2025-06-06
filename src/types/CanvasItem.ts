@@ -19,10 +19,22 @@ export type ComponentInstance = {
     borderRadius?: number;
     fontSize?: number;
     navigateTo?: string;
-    header?: {title:string}[];
-    data?: Record<string, string>[];
+    table?: ComponentInstanceTable
+    card?: ComponentInstanceCard;
   };
 };
+
+export type ComponentInstanceTable = {
+  header: { title: string }[];
+  data: Record<string, string>[];
+}
+
+export type ComponentInstanceCard = {
+  title: string;
+  image: string;
+  description: string;
+  price: number;
+}
 
 export interface CanvasItem {
   id: string;
