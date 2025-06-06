@@ -1,4 +1,4 @@
-import { IconLock, IconMenuDeep, IconSearch, IconTable, IconUser } from "../assets/Icons";
+import { IconCard, IconLock, IconMenuDeep, IconSearch, IconTable, IconUser } from "../assets/Icons";
 import { AppBar1, Button, Checkbox, TextField } from "./ComponentLibrary";
 import { Draggable } from "./Draggable";
 import { Table } from "./library/Table";
@@ -38,6 +38,12 @@ export const components = [
         icon: IconTable,
         component: Table,
         bg: "#18181b"
+    },
+    {
+        id: "card",
+        label: "Card",
+        icon: IconCard,
+        bg: "#18181b",
     }
 ]
 

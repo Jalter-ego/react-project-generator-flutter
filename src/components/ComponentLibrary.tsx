@@ -1,4 +1,5 @@
 import { IconLock, IconMenuDeep, IconSearch, IconUser } from '../assets/Icons';
+import Card from './library/Card';
 import { Table } from './library/Table';
 
 export function Button({
@@ -103,4 +104,5 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   iconLock: IconLock,
   iconMenuDeep: IconMenuDeep,
   table: Table,
+  card: Card
 };
