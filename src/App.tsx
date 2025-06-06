@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { itemsIcons } from './assets/itemIcons';
 import { urlimage } from './assets/urlImage';
-import ChatbotSidebar from './components/chatbot/ChatbotSidebar';
+import FloatingChatbot from './components/chatbot/FloatingChatbot';
 import { DropZone } from './components/DropZone';
 import { data, header } from './components/library/Table';
 import SidebarComponents from './components/SidebarComponents';
@@ -288,9 +288,7 @@ export default function App() {
             />
           </div>
         </div>
-        <ChatbotSidebar
-          updateScreensFromJSON={updateScreensFromJSON}
-        />
+        <FloatingChatbot updateScreensFromJSON={updateScreensFromJSON} />
       </DndContext>
     </div>
   );
