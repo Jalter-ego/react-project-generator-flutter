@@ -1,6 +1,7 @@
 import { AllIcons, IconMenuDeep, IconUser } from '../assets/Icons';
 import CalendarComponent from './library/Calendar';
 import Card from './library/Card';
+import { ComboboxDemo } from './library/Combobox';
 import Container from './library/Container';
 import ImageComponent from './library/Image';
 import Label from './library/Label';
@@ -110,6 +111,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   container: Container,
   label: Label,
   image: ImageComponent,
+  combobox: ComboboxDemo,
   iconSearch: AllIcons.IconSearch,
   iconLock: AllIcons.IconLock,
   iconMenuDots: AllIcons.IconMenuDots,

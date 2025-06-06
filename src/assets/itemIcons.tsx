@@ -37,4 +37,5 @@ export const itemsIcons = [
   'iconPencil',
   'iconX',
   'iconGoogle',
+  'combobox',
 ];

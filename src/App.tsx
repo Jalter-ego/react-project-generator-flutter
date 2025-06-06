@@ -20,8 +20,9 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   table: { table: { header, data } },
   card: { card: { title: 'Card Title', image: urlimage, description: 'Card Description', price: 0 } },
   container: { bg: '#e37', width: 300, height: 200, borderRadius: 12 },
-  label: { label: "Etiqueta", fontSize: 16, bg: "#ffffff", width: 120, height: 30, },
+  label: { label: "Etiqueta", fontSize: 16, colorFont: "#000000"},
   image: { image: urlimage, width: 120, height: 120, borderRadius: 12, },
+
 };
 
 export default function App() {
