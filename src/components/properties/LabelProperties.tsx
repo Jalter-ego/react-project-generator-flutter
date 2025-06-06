@@ -29,16 +29,6 @@ export default function LabelProperties({
                 />
             </div>
             <div>
-                <label className="text-sm font-medium">Color de fondo</label>
-                <input
-                    type="text"
-                    name="bg"
-                    value={props.bg || ''}
-                    onChange={(e) => handleChange(e, 'string')}
-                    className="w-full p-2 mt-1 bg-gray-700 text-white rounded-md"
-                />
-            </div>
-            <div>
                 <label className="text-sm font-medium">Tamaño de fuente</label>
                 <input
                     type="number"
@@ -49,23 +39,13 @@ export default function LabelProperties({
                 />
             </div>
             <div>
-                <label className="text-sm font-medium">Ancho</label>
+                <label className="text-sm font-medium">Color de fuente</label>
                 <input
-                    type="number"
-                    name="width"
-                    value={props.width || 120}
-                    onChange={(e) => handleChange(e, 'number')}
-                    className="w-full p-2 mt-1 bg-gray-700 text-white rounded-md"
-                />
-            </div>
-            <div>
-                <label className="text-sm font-medium">Alto</label>
-                <input
-                    type="number"
-                    name="height"
-                    value={props.height || 30}
-                    onChange={(e) => handleChange(e, 'number')}
-                    className="w-full p-2 mt-1 bg-gray-700 text-white rounded-md"
+                    type="color"
+                    name="colorFont"
+                    value={selectedComponent.properties?.colorFont || '#000000'}
+                    onChange={(e) => handleChange(e, 'string')}
+                    className="w-full h-10 mt-1 rounded-md"
                 />
             </div>
         </div>

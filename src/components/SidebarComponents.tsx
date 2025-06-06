@@ -68,6 +68,11 @@ export const components = [
         label: "Image",
         icon: IconTable,
         bg: "#18181b",
+    },{
+        id: "combobox",
+        label: "Combobox",
+        icon: IconTable,
+        bg: "#18181b",
     }
 ]
 

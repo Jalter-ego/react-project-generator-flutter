@@ -1,23 +1,19 @@
 export default function Label(props: any) {
     const {
         label = "Etiqueta",
+        colorFont = "#000000",
         fontSize = 14,
-        bg = "#ffffff",
-        width = 100,
-        height = 30,
     } = props;
 
     return (
-        <div
+        <p
             className="flex items-center justify-center rounded-md"
             style={{
-                backgroundColor: bg,
-                width,
-                height,
                 fontSize,
+                color: colorFont,
             }}
         >
             {label}
-        </div>
+        </p>
     );
 }

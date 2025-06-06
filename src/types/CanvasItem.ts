@@ -22,6 +22,7 @@ export type ComponentInstance = {
     table?: ComponentInstanceTable
     card?: ComponentInstanceCard;
     image?: string;
+    colorFont?: string;
   };
 };
 
