@@ -1,5 +1,5 @@
-import { IconRobot, IconUser } from '@tabler/icons-react';
 import ReactMarkdown from 'react-markdown';
+import { IconRobot, IconUser } from '../../assets/Icons';
 
 type MessageBubbleProps = {
     text: string;
@@ -14,7 +14,7 @@ export default function MessageBubble({ text, sender, isLoading = false, isMarkd
             <div className={`flex items-start gap-2 max-w-[80%]`}>
                 {sender === 'bot' && (
                     <div className="mt-1 p-1 rounded-full bg-blue-500 text-white">
-                        <IconRobot size={18} />
+                        <IconRobot />
                     </div>
                 )}
 
@@ -40,7 +40,7 @@ export default function MessageBubble({ text, sender, isLoading = false, isMarkd
 
                 {sender === 'user' && (
                     <div className="mt-1 p-1 rounded-full bg-gray-600 text-white">
-                        <IconUser size={18} />
+                        <IconUser/>
                     </div>
                 )}
             </div>

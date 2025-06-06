@@ -1,5 +1,5 @@
-import { IconSend } from '@tabler/icons-react';
 import { useState } from 'react';
+import { IconSend } from '../../assets/Icons';
 
 type PromptInputProps = {
   onSend: (prompt: string) => void;
@@ -36,7 +36,7 @@ export default function PromptInput({ onSend, disabled = false }: PromptInputPro
             : 'text-blue-400 hover:text-blue-300'
         }`}
       >
-        <IconSend size={20} />
+        <IconSend />
       </button>
     </form>
   );
