@@ -8,14 +8,17 @@ import { ScreenManager } from './components/ScreenManager';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
+import { data, header } from './components/library/Table';
 
-const items = ['button', 'textfield', 'checkbox', 'appbar1', 'iconUser', 'iconSearch', 'iconLock', 'iconMenuDeep'];
+const items = ['button', 'textfield', 'checkbox', 'appbar1',
+   'iconUser', 'iconSearch', 'iconLock', 'iconMenuDeep','table'];
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
   textfield: { placeholder: 'Campo de texto', width: 232, height: 32, borderRadius: 12 },
   checkbox: { checked: false },
   appbar1: { width: 300, height: 32, bg: '#ffffff' },
+  table: { header, data }
 };
 
 export default function App() {
@@ -227,7 +230,7 @@ export default function App() {
   return (
     <div className="flex h-screen bg-gray-900">
       <DndContext onDragEnd={handleDragEnd}>
-        <div className="flex">
+        <div className="flex h-screen">
           <ScreenManager
             screens={screens}
             currentScreenId={currentScreenId}
