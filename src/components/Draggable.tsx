@@ -24,7 +24,7 @@ export function Draggable({ id, label, children, section }:
           <div className="bg-white text-black rounded-md p-2 flex justify-center items-center mb-1">
             {children}
           </div>
-          <p className="text-xs text-zinc-300">{label}</p>
+          <p className="text-xs text-zinc-300 truncate">{label}</p>
 
         </div>
       ) : (
