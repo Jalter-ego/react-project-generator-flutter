@@ -21,6 +21,7 @@ export type ComponentInstance = {
     navigateTo?: string;
     table?: ComponentInstanceTable
     card?: ComponentInstanceCard;
+    combobox?: ComponentInstanceCombobox;
     image?: string;
     colorFont?: string;
   };
@@ -30,6 +31,10 @@ export type ComponentInstanceTable = {
   header: { title: string }[];
   data: Record<string, string>[];
 }
+
+export type ComponentInstanceCombobox = {
+  label: string;
+}[];
 
 export type ComponentInstanceCard = {
   title: string;

@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import { IconRobot, IconUser } from '../../assets/Icons';
+import { memo } from 'react'
 
 type MessageBubbleProps = {
     text: string;
@@ -8,7 +9,7 @@ type MessageBubbleProps = {
     isMarkdown?: boolean;
 };
 
-export default function MessageBubble({ text, sender, isLoading = false, isMarkdown = false }: MessageBubbleProps) {
+const MessageBubble = memo(({ text, sender, isLoading = false, isMarkdown = false }: MessageBubbleProps) => {
     return (
         <div className={`flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`flex items-start gap-2 max-w-[80%]`}>
@@ -46,4 +47,5 @@ export default function MessageBubble({ text, sender, isLoading = false, isMarkd
             </div>
         </div>
     );
-}
+});
+export default MessageBubble;

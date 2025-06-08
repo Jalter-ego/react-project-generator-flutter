@@ -10,6 +10,7 @@ import { data, header } from './components/library/Table';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
+import { dataCombobox } from './constants/dataCombobox';
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -21,7 +22,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   container: { bg: '#e37', width: 300, height: 200, borderRadius: 12 },
   label: { label: "Etiqueta", fontSize: 16, colorFont: "#000000" },
   image: { image: urlimage, width: 120, height: 120, borderRadius: 12, },
-
+  combobox:  { combobox: dataCombobox },
 };
 
 export default function App() {

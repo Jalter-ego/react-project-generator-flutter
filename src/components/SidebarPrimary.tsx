@@ -2,6 +2,7 @@ import type { ComponentInstance, ScreenType } from '../types/CanvasItem';
 import type { PropertiesEditorProps } from '../types/ComponentsPropertiesEditor';
 import ButtonProperties from './properties/ButtonProperties';
 import CardProperties from './properties/CardProperties';
+import ComboboxProperties from './properties/ComboboxProperties';
 import ContainerProperties from './properties/containerProperties';
 import ImageProperties from './properties/ImageProperties';
 import LabelProperties from './properties/LabelProperties';
@@ -16,6 +17,7 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   container: ContainerProperties,
   label: LabelProperties,
   image: ImageProperties,
+  combobox: ComboboxProperties
 };
 
 export default function SidebarPrimary({

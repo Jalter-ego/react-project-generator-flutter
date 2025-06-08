@@ -4,6 +4,7 @@ import { sendMessageToGemini } from '../../services/chatbot/ai.service';
 import type { ScreenType } from '../../types/CanvasItem';
 import MessageBubble from './MessageBubble';
 import PromptInput from './PromtInput';
+import {memo} from 'react';
 
 interface Props {
     updateScreensFromJSON: (screens: ScreenType[]) => void;
@@ -15,7 +16,7 @@ type Message = {
     sender: 'user' | 'bot';
 };
 
-export default function FloatingChatbot({ updateScreensFromJSON }: Props) {
+export default memo(function FloatingChatbot({ updateScreensFromJSON }: Props) {
     const [messages, setMessages] = useState<Message[]>([
         {
             id: '1',
@@ -98,4 +99,4 @@ export default function FloatingChatbot({ updateScreensFromJSON }: Props) {
             )}
         </>
     );
-}
+});
