@@ -40,6 +40,7 @@ export default function App() {
   const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
   const [history, setHistory] = useState<ScreenType[][]>([screens]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
+  const [isDragEnabled, setIsDragEnabled] = useState(true);
 
   const currentScreen = screens.find(screen => screen.id === currentScreenId) || screens[0];
 
@@ -62,6 +63,7 @@ export default function App() {
   };
 
   function handleDragEnd(event: DragEndEvent) {
+    if (!isDragEnabled) return;
     const { over, active, delta } = event;
 
     const isNewComponent = itemsIcons.includes(active.id as string);
@@ -261,8 +263,14 @@ export default function App() {
                 Redo
               </button>
               <button
+                onClick={() => setIsDragEnabled(!isDragEnabled)}
+                className={`px-3 py-1 ${isDragEnabled ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white rounded-md transition-colors`}
+              >
+                {isDragEnabled ? 'Pausar Arrastre' : 'Habilitar Arrastre'}
+              </button>
+              <button
                 onClick={exportDesign}
-                className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
+                className="px-3 py-1 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
               >
                 Export JSON
               </button>
@@ -277,6 +285,7 @@ export default function App() {
               selectedComponentId={selectedComponentId}
               setSelectedComponentId={setSelectedComponentId}
               navigateToScreen={navigateToScreen}
+              isDragEnabled={isDragEnabled}
             />
             <SidebarPrimary
               selectedComponent={selectedComponent}

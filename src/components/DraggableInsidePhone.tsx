@@ -9,7 +9,8 @@ export function DraggableInsidePhone({
   children,
   isSelected,
   onSelect,
-  navigateToScreen
+  navigateToScreen,
+  isDragEnabled
 }: {
   id: string;
   x: number;
@@ -18,6 +19,7 @@ export function DraggableInsidePhone({
   isSelected: boolean;
   onSelect: () => void;
   navigateToScreen?: (screenId: string) => void;
+  isDragEnabled: boolean;
 }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id });
   const [isClicking, setIsClicking] = useState(false);
@@ -25,11 +27,13 @@ export function DraggableInsidePhone({
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsClicking(true);
-    const timeout = setTimeout(() => {
-      setIsClicking(false);
-    }, 200);
-    setClickTimeout(timeout);
+    if (isDragEnabled) {
+      setIsClicking(true);
+      const timeout = setTimeout(() => {
+        setIsClicking(false);
+      }, 200);
+      setClickTimeout(timeout);
+    }
   };
 
   const handleMouseUp = (e: React.MouseEvent) => {
@@ -57,10 +61,10 @@ export function DraggableInsidePhone({
     left: x,
     top: y,
     transform: CSS.Translate.toString(transform),
-    touchAction: 'none',
+    touchAction: isDragging ? 'none' : 'auto',
     zIndex: isSelected || isDragging ? 1000 : 1,
     border: isSelected ? '2px solid #3b82f6' : 'none',
-    cursor: isDragging ? 'grabbing' : 'pointer',
+    cursor: isDragEnabled ? (isDragging ? 'grabbing' : 'pointer') : 'default',
   };
   const childrenWithProps = React.Children.map(children, child => {
     if (React.isValidElement(child)) {
@@ -76,6 +80,7 @@ export function DraggableInsidePhone({
           style: { cursor: 'pointer' }
         } as Partial<unknown> & React.Attributes);
       }
+      return child
     }
     return child;
   });
@@ -84,8 +89,8 @@ export function DraggableInsidePhone({
     <div
       ref={setNodeRef}
       style={style}
-      {...listeners}
-      {...attributes}
+      {...(isDragEnabled ? listeners : {})}
+      {...(isDragEnabled ? attributes : {})}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       className="group relative"

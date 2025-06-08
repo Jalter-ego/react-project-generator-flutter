@@ -9,12 +9,14 @@ export function DropZone({
   components,
   selectedComponentId,
   setSelectedComponentId,
-  navigateToScreen
+  navigateToScreen,
+  isDragEnabled
 }: {
   components: ComponentInstance[];
   selectedComponentId: string | null;
   setSelectedComponentId: (id: string | null) => void;
   navigateToScreen: (screenId: string) => void;
+  isDragEnabled: boolean;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'dropzone' });
 
@@ -52,6 +54,7 @@ export function DropZone({
                 isSelected={selectedComponentId === comp.id}
                 onSelect={() => setSelectedComponentId(comp.id)}
                 navigateToScreen={navigateToScreen}
+                isDragEnabled={isDragEnabled}
               >
                 <Component {...comp.properties} />
               </DraggableInsidePhone>
