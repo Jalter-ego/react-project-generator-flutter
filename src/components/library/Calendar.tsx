@@ -1,8 +1,7 @@
 import { Calendar } from "@/components/ui/calendar"
 import { useState } from "react"
-import { memo } from "react"
 
-const CalendarComponent = memo(() => {
+export default function CalendarComponent() {
     const [date, setDate] = useState<Date | undefined>(new Date())
     return (
         <Calendar
@@ -12,6 +11,4 @@ const CalendarComponent = memo(() => {
             className="rounded-md border"
         />
     )
-})
-
-export default CalendarComponent
+}

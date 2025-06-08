@@ -15,13 +15,12 @@ import {
 import { useState } from "react"
 import { IconCheck, IconSelector } from "@/assets/Icons"
 import type { ComponentInstanceCombobox } from "@/types/CanvasItem"
-import { memo } from "react"
 
 interface ComboboxDemoProps {
   combobox: ComponentInstanceCombobox;
 }
 
-export const ComboboxDemo = memo(({ combobox }: ComboboxDemoProps) => {
+export function ComboboxDemo({ combobox }: ComboboxDemoProps) {
   console.log(combobox);
 
   const [open, setOpen] = useState(false)
@@ -66,4 +65,4 @@ export const ComboboxDemo = memo(({ combobox }: ComboboxDemoProps) => {
       </PopoverContent>
     </Popover>
   )
-})
+}
