@@ -11,6 +11,9 @@ import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 import { dataCombobox } from './constants/dataCombobox';
+import { useParams } from 'react-router-dom';
+import { fetchProjectById, fetchUpdateProyect, type CreateProject } from './services/figma.service';
+import { toast } from 'sonner';
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -22,54 +25,141 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   container: { bg: '#e37', width: 300, height: 200, borderRadius: 12 },
   label: { label: "Etiqueta", fontSize: 16, colorFont: "#000000" },
   image: { image: urlimage, width: 120, height: 120, borderRadius: 12, },
-  combobox:  { combobox: dataCombobox },
+  combobox: { combobox: dataCombobox },
 };
 
 export default function App() {
+  const { id } = useParams();
+  const [project, setProject] = useState<CreateProject | undefined>(undefined)
   const [screens, setScreens] = useState<ScreenType[]>(() => {
     const saved = localStorage.getItem('design-screens');
-    return saved ? JSON.parse(saved) : [
-      {
-        id: 'home',
-        name: 'Pantalla Principal',
-        components: []
-      }
-    ];
+    return saved
+      ? JSON.parse(saved)
+      : [
+        {
+          id: 'home',
+          name: 'Pantalla Principal',
+          components: [],
+        },
+      ];
   });
-
   const [currentScreenId, setCurrentScreenId] = useState('home');
   const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
   const [history, setHistory] = useState<ScreenType[][]>([screens]);
   const [historyIndex, setHistoryIndex] = useState<number>(0);
   const [isDragEnabled, setIsDragEnabled] = useState(true);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const currentScreen = screens.find(screen => screen.id === currentScreenId) || screens[0];
 
-  // Guardar pantallas en localStorage
-  useEffect(() => {
+  const saveToLocalStorage = debounce((screens: ScreenType[]) => {
     localStorage.setItem('design-screens', JSON.stringify(screens));
+  }, 500);
+
+  function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+
+    return (...args: Parameters<T>) => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => {
+        func(...args);
+        timeout = null;
+      }, wait);
+    };
+  }
+
+  useEffect(() => {
+    saveToLocalStorage(screens);
   }, [screens]);
 
+  useEffect(() => {
+    setHasUnsavedChanges(true);
+  }, [screens]);
 
-  // Función para actualizar las pantallas desde un JSON
+  useEffect(() => {
+    if (id) {
+      fetchDataProject();
+    }
+  }, [id]);
+
+  const fetchDataProject = async () => {
+    if (!id) {
+      alert('No project ID provided. Please select a project.');
+      return;
+    }
+    if (hasUnsavedChanges && !confirm('You have unsaved changes. Load project anyway?')) {
+      return;
+    }
+    try {
+      const data = await fetchProjectById(id);
+      setProject(data)
+      if (data?.screens && data.screens.length > 0) {
+        updateScreensFromJSON(data.screens);
+      } else {
+        const defaultScreen: ScreenType = {
+          id: 'home',
+          name: 'Pantalla Principal',
+          components: [],
+        };
+        updateScreensFromJSON([defaultScreen]);
+      }
+      setHasUnsavedChanges(false);
+    } catch (error) {
+      console.error('Error fetching project data:', error);
+      alert('Failed to load project. Please try again.');
+    }
+  };
+
+  const saveProject = async () => {
+    if (!project || !id) {
+      alert('No project selected. Please load a project first.');
+      return;
+    }
+
+    try {
+      const updateProyect: CreateProject = {
+        name: project.name,
+        userId: project.userId,
+        screens: screens
+      }
+
+      await fetchUpdateProyect(updateProyect, id)
+      setHasUnsavedChanges(false);
+      toast('Project saved successfully!');
+
+    } catch (error) {
+      console.error('Failed to save project:', error);
+      alert('Failed to save project');
+    }
+  };
+
   const updateScreensFromJSON = (newScreens: ScreenType[]) => {
-    // Limpiar localStorage
-    localStorage.removeItem('design-screens');
     setScreens(newScreens);
     setHistory([newScreens]);
     setHistoryIndex(0);
     setCurrentScreenId(newScreens[0]?.id || 'home');
     setSelectedComponentId(null);
-    localStorage.setItem('design-screens', JSON.stringify(newScreens));
+    saveToLocalStorage(newScreens);
+  };
+
+  const updateWithHistory = (newScreens: ScreenType[]) => {
+    const newHistory = history.slice(0, historyIndex + 1);
+    newHistory.push(newScreens);
+    setHistory(newHistory);
+    setHistoryIndex(newHistory.length - 1);
+    setScreens(newScreens);
   };
 
   function handleDragEnd(event: DragEndEvent) {
     if (!isDragEnabled) return;
     const { over, active, delta } = event;
-
     const isNewComponent = itemsIcons.includes(active.id as string);
+    let newScreens: ScreenType[];
+
     if (isNewComponent && over?.id === 'dropzone') {
-      const newScreens = screens.map(screen => {
+      newScreens = screens.map(screen => {
         if (screen.id === currentScreenId) {
           return {
             ...screen,
@@ -81,41 +171,31 @@ export default function App() {
                 x: 50,
                 y: 50,
                 properties: defaultProperties[active.id as string] || {},
-              }
-            ]
+              },
+            ],
           };
         }
         return screen;
       });
-      saveHistory(newScreens);
     } else if (!isNewComponent) {
-      const newScreens = screens.map(screen => {
+      newScreens = screens.map(screen => {
         if (screen.id === currentScreenId) {
           return {
             ...screen,
             components: screen.components.map(comp =>
               comp.id === active.id
-                ? {
-                  ...comp,
-                  x: comp.x + delta.x,
-                  y: comp.y + delta.y,
-                }
+                ? { ...comp, x: comp.x + delta.x, y: comp.y + delta.y }
                 : comp
-            )
+            ),
           };
         }
         return screen;
       });
-      saveHistory(newScreens);
+    } else {
+      return;
     }
-  }
 
-  function saveHistory(newScreens: ScreenType[]) {
-    const newHistory = history.slice(0, historyIndex + 1);
-    newHistory.push(newScreens);
-    setHistory(newHistory);
-    setHistoryIndex(newHistory.length - 1);
-    setScreens(newScreens);
+    updateWithHistory(newScreens);
   }
 
   function updateComponentProperties(id: string, properties: ComponentInstance['properties']) {
@@ -125,12 +205,12 @@ export default function App() {
           ...screen,
           components: screen.components.map(comp =>
             comp.id === id ? { ...comp, properties } : comp
-          )
+          ),
         };
       }
       return screen;
     });
-    saveHistory(newScreens);
+    updateWithHistory(newScreens);
   }
 
   function deleteComponent(id: string) {
@@ -138,12 +218,12 @@ export default function App() {
       if (screen.id === currentScreenId) {
         return {
           ...screen,
-          components: screen.components.filter(comp => comp.id !== id)
+          components: screen.components.filter(comp => comp.id !== id),
         };
       }
       return screen;
     });
-    saveHistory(newScreens);
+    updateWithHistory(newScreens);
     if (selectedComponentId === id) setSelectedComponentId(null);
   }
 
@@ -160,15 +240,15 @@ export default function App() {
                 ...component,
                 id: uuidv4(),
                 x: component.x + 20,
-                y: component.y + 20
-              }
-            ]
+                y: component.y + 20,
+              },
+            ],
           };
         }
       }
       return screen;
     });
-    saveHistory(newScreens);
+    updateWithHistory(newScreens);
   }
 
   function undo() {
@@ -207,31 +287,28 @@ export default function App() {
       {
         id: newScreenId,
         name: `Pantalla ${screens.length + 1}`,
-        components: []
-      }
+        components: [],
+      },
     ];
-    saveHistory(newScreens);
+    updateWithHistory(newScreens);
     setCurrentScreenId(newScreenId);
   };
 
   const navigateToScreen = (screenId: string) => {
     if (screens.some(screen => screen.id === screenId)) {
       setCurrentScreenId(screenId);
-      setSelectedComponentId(null); // Deseleccionar al navegar
+      setSelectedComponentId(null);
     }
   };
 
   const renameScreen = (id: string, newName: string) => {
     const newScreens = screens.map(screen => {
       if (screen.id === id) {
-        return {
-          ...screen,
-          name: newName
-        };
+        return { ...screen, name: newName };
       }
       return screen;
     });
-    saveHistory(newScreens);
+    updateWithHistory(newScreens);
   };
 
   return (
@@ -268,6 +345,12 @@ export default function App() {
                 className={`px-3 py-1 ${isDragEnabled ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white rounded-md transition-colors`}
               >
                 {isDragEnabled ? 'Pausar Arrastre' : 'Habilitar Arrastre'}
+              </button>
+              <button
+                onClick={saveProject}
+                className="px-3 py-1 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors"
+              >
+                Save Project
               </button>
               <button
                 onClick={exportDesign}
