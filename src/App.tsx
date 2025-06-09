@@ -27,6 +27,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   image: { image: urlimage, width: 120, height: 120, borderRadius: 12, },
   combobox: { combobox: dataCombobox },
   switch: { checked: false },
+  radio: { checked: false },
 };
 
 export default function App() {

@@ -39,4 +39,5 @@ export const items = [
   'iconGoogle',
   'combobox',
   'switch',
+  'radio',
 ];

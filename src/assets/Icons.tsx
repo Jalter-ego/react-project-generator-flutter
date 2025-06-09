@@ -165,11 +165,18 @@ export const IconToggle = () => (
         <rect x="2" y="6" width="20" height="12" rx="6" />
     </svg>
 );
-
+export const IconRadio = ({ checked = false }: { checked?: boolean }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-radio">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <circle cx="12" cy="12" r="9" />
+        {checked && <circle cx="12" cy="12" r="5" fill="currentColor" />}
+    </svg>
+);
 
 export const AllIcons = {
     IconAdd,
     IconToggle,
+    IconRadio,
     IconArrowDown,
     IconArrowLeft,
     IconArrowRight,

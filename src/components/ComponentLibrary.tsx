@@ -5,6 +5,7 @@ import { ComboboxDemo } from './library/Combobox';
 import Container from './library/Container';
 import ImageComponent from './library/Image';
 import Label from './library/Label';
+import { RadioComponent } from './library/Radio';
 import { SwitchComponent } from './library/Switch';
 import { Table } from './library/Table';
 
@@ -121,6 +122,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   image: ImageComponent,
   combobox: ComboboxDemo,
   switch: SwitchComponent,
+  radio: RadioComponent,
   iconLock: AllIcons.IconLock,
   iconAdd: AllIcons.IconAdd,
   iconTag: AllIcons.IconTag,
