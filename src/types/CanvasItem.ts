@@ -25,6 +25,8 @@ export type ComponentInstance = {
     image?: string;
     colorFont?: string;
     icon?: string;
+    size?: number;
+    borderColor?: string;
   };
 };
 

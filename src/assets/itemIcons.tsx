@@ -42,4 +42,5 @@ export const items = [
   'radio',
   'timepicker',
   'chip',
+  'circleavatar',
 ];

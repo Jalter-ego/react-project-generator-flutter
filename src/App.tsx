@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { items } from './assets/itemIcons';
-import { urlimage } from './assets/urlImage';
+import { urlimage, urlImageUser } from './assets/urlImage';
 import FloatingChatbot from './components/chatbot/FloatingChatbot';
 import { DropZone } from './components/DropZone';
 import { data, header } from './components/library/Table';
@@ -29,6 +29,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   switch: { checked: false },
   radio: { checked: false },
   chip: { label: 'Input Chips', bg: '#6366F1', icon: 'I', },
+  circleavatar: { image: urlImageUser, size: 80, borderColor: "#ffffff" }
 };
 
 export default function App() {

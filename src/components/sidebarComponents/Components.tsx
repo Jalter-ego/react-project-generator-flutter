@@ -92,5 +92,10 @@ export const components = [
         label: "Chip",
         icon: AllIcons.IconLabel,
         bg: "#6366F1",
+    }, {
+        id: "circleavatar",
+        label: "Avatar",
+        icon: AllIcons.IconUser,
+        bg: "#18181b",
     }
 ]
