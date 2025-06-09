@@ -1,10 +1,9 @@
 // src/components/chatbot/FloatingChatbot.tsx
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { sendMessageToGemini } from '../../services/chatbot/ai.service';
 import type { ScreenType } from '../../types/CanvasItem';
 import MessageBubble from './MessageBubble';
 import PromptInput from './PromtInput';
-import {memo} from 'react';
 
 interface Props {
     updateScreensFromJSON: (screens: ScreenType[]) => void;
@@ -28,16 +27,16 @@ export default memo(function FloatingChatbot({ updateScreensFromJSON }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    const handleSendPrompt = async (prompt: string) => {
+    const handleSendPrompt = async (prompt: string, image?: File) => {
         const userMessage: Message = {
             id: Date.now().toString(),
-            text: prompt,
+            text: image ? `[Imagen: ${image.name}] ${prompt}` : prompt,
             sender: 'user'
         };
         setMessages((prev) => [...prev, userMessage]);
         setIsLoading(true);
 
-        const botResponse = await sendMessageToGemini(prompt);
+        const botResponse = await sendMessageToGemini(prompt,image);
         let botMessageText = botResponse;
         try {
             let cleanedResponse = botResponse.trim();
@@ -50,7 +49,13 @@ export default memo(function FloatingChatbot({ updateScreensFromJSON }: Props) {
                 botMessageText = `Diseño actualizado correctamente.`;
             }
         } catch (err) {
-            console.error('Error parsing JSON:', err);
+            const errorMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                text: "Lo siento, ocurrió un error al procesar tu solicitud.",
+                sender: 'bot'
+            };
+            setMessages(prev => [...prev, errorMessage]);
+            setIsLoading(false);
         }
 
         const botMessage: Message = {

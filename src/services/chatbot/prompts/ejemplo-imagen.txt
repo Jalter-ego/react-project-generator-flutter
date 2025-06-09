@@ -1,0 +1,6 @@
+[Cuadro de texto en imagen] -> "type": "textfield"
+[Botón redondeado] -> "type": "button" con "borderRadius"
+
+- Máximo 1 imagen por solicitud
+- Tamaño recomendado: sin limites
+- Formatos soportados: JPEG, PNG, WEBP
