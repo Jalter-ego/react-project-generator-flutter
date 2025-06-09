@@ -8,7 +8,7 @@ export default function ChipProperties({
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>,
-        type: 'string'
+        _type: 'string'
     ) => {
         const { name, value } = e.target;
         updateComponentProperties(selectedComponent.id, {
