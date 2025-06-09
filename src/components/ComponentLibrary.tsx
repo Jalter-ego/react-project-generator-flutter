@@ -98,13 +98,20 @@ export function AppBar1({
   );
 }
 
+const ClickableIcon = ({ IconComponent, ...props }: { IconComponent: React.ComponentType, [key: string]: any }) => (
+  <div
+    onClick={props.onClick}
+    style={{ display: 'inline-block', cursor: props.onClick ? 'pointer' : 'default' }}
+  >
+    <IconComponent />
+  </div>
+);
 
 export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   button: Button,
   textfield: TextField,
   checkbox: Checkbox,
   appbar1: AppBar1,
-  iconUser: IconUser,
   table: Table,
   card: Card,
   calendar: CalendarComponent,
@@ -112,15 +119,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   label: Label,
   image: ImageComponent,
   combobox: ComboboxDemo,
-  iconSearch: AllIcons.IconSearch,
   iconLock: AllIcons.IconLock,
-  iconMenuDots: AllIcons.IconMenuDots,
-  iconMenuDeep: AllIcons.IconMenuDeep,
-  iconHeart: AllIcons.IconHeart,
-  iconMessage: AllIcons.IconMessage,
-  iconHeadphones: AllIcons.IconHeadphones,
-  iconLogin: AllIcons.IconLogin,
-  iconLogout: AllIcons.IconLogout,
   iconAdd: AllIcons.IconAdd,
   iconTag: AllIcons.IconTag,
   iconShare: AllIcons.IconShare,
@@ -130,13 +129,21 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   iconText: AllIcons.IconText,
   iconEmoji: AllIcons.IconEmoji,
   iconMicrophone: AllIcons.IconMicrophone,
-  iconArrowUp: AllIcons.IconArrowUp,
-  iconArrowDown: AllIcons.IconArrowDown,
-  iconArrowLeft: AllIcons.IconArrowLeft,
-  iconArrowRight: AllIcons.IconArrowRight,
-  iconArrowUpDown: AllIcons.IconArrowUpDown,
   iconTrash: AllIcons.IconTrash,
   iconPencil: AllIcons.IconPencil,
   iconX: AllIcons.IconX,
   iconGoogle: AllIcons.IconGoogle,
+  iconUser: (props) => <ClickableIcon IconComponent={AllIcons.IconUser} {...props} />,
+  iconSearch: (props) => <ClickableIcon IconComponent={AllIcons.IconSearch} {...props} />,
+  iconMenuDots: (props) => <ClickableIcon IconComponent={AllIcons.IconMenuDots} {...props} />,
+  iconMenuDeep: (props) => <ClickableIcon IconComponent={AllIcons.IconMenuDeep} {...props} />,
+  iconMessage: (props) => <ClickableIcon IconComponent={AllIcons.IconMessage} {...props} />,
+  iconHeadphones: (props) => <ClickableIcon IconComponent={AllIcons.IconHeadphones} {...props} />,
+  iconLogin: (props) => <ClickableIcon IconComponent={AllIcons.IconLogin} {...props} />,
+  iconLogout: (props) => <ClickableIcon IconComponent={AllIcons.IconLogout} {...props} />,
+  iconArrowUp: (props) => <ClickableIcon IconComponent={AllIcons.IconArrowUp} {...props} />,
+  iconArrowDown: (props) => <ClickableIcon IconComponent={AllIcons.IconArrowDown} {...props} />,
+  iconArrowLeft: (props) => <ClickableIcon IconComponent={AllIcons.IconArrowLeft} {...props} />,
+  iconArrowRight: (props) => <ClickableIcon IconComponent={AllIcons.IconArrowRight} {...props} />,
+  iconArrowUpDown: (props) => <ClickableIcon IconComponent={AllIcons.IconArrowUpDown} {...props} />,
 };

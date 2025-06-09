@@ -4,6 +4,7 @@ import ButtonProperties from './properties/ButtonProperties';
 import CardProperties from './properties/CardProperties';
 import ComboboxProperties from './properties/ComboboxProperties';
 import ContainerProperties from './properties/containerProperties';
+import IconProperties from './properties/IconProperties';
 import ImageProperties from './properties/ImageProperties';
 import LabelProperties from './properties/LabelProperties';
 import TableProperties from './properties/TableProperties';
@@ -17,7 +18,20 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   container: ContainerProperties,
   label: LabelProperties,
   image: ImageProperties,
-  combobox: ComboboxProperties
+  combobox: ComboboxProperties,
+  iconUser: IconProperties,
+  iconSearch: IconProperties,
+  iconLogin: IconProperties,
+  iconLogout: IconProperties,
+  iconMenuDots: IconProperties,
+  iconMenuDeep: IconProperties,
+  iconMessage: IconProperties,
+  iconHeadphones: IconProperties,
+  iconArrowUp: IconProperties,
+  iconArrowDown: IconProperties,
+  iconArrowLeft: IconProperties,
+  iconArrowRight: IconProperties,
+  iconArrowUpDown: IconProperties,
 };
 
 export default function SidebarPrimary({
