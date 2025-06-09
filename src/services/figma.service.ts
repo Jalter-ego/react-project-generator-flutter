@@ -43,15 +43,39 @@ export const fetchDeleteProject = async (id: string) => {
   return data;
 };
 
-export const fetchUpdateProyect = async (project: CreateProject,id:string) => {
-  console.log(project);
-  console.log(id);
-  
+export const fetchUpdateProyect = async (
+  project: CreateProject,
+  id: string
+) => {
+  const sanitized = sanitizeProject(project);
+  console.log(sanitized);
+
   const response = await fetch(`${api}/figma/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(project),
+    body: JSON.stringify(sanitized),
   });
+
   const data = await response.json();
+  console.log(data);
+
   return data;
 };
+
+function sanitizeProject(project: CreateProject) {
+  return {
+    name: project.name,
+    userId: project.userId,
+    screens: project.screens.map((screen) => ({
+      id: screen.id,
+      name: screen.name,
+      components: screen.components.map((component: any) => ({
+        id: component.id, 
+        type: component.type,
+        x: component.x,
+        y: component.y,
+        properties: component.properties,
+      })),
+    })),
+  };
+}

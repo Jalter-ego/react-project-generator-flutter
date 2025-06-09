@@ -21,7 +21,6 @@ interface ComboboxDemoProps {
 }
 
 export function ComboboxDemo({ combobox }: ComboboxDemoProps) {
-  console.log(combobox);
 
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")

@@ -98,6 +98,8 @@ export default function App() {
     }
     try {
       const data = await fetchProjectById(id);
+      console.log(data);
+      
       setProject(data)
       if (data?.screens && data.screens.length > 0) {
         updateScreensFromJSON(data.screens);
@@ -128,6 +130,8 @@ export default function App() {
         userId: project.userId,
         screens: screens
       }
+      console.log(updateProyect);
+      
 
       await fetchUpdateProyect(updateProyect, id)
       setHasUnsavedChanges(false);
@@ -135,7 +139,6 @@ export default function App() {
 
     } catch (error) {
       console.error('Failed to save project:', error);
-      alert('Failed to save project');
     }
   };
 
