@@ -2,6 +2,7 @@ import type { ComponentInstance, ScreenType } from '../types/CanvasItem';
 import type { PropertiesEditorProps } from '../types/ComponentsPropertiesEditor';
 import ButtonProperties from './properties/ButtonProperties';
 import CardProperties from './properties/CardProperties';
+import ChipProperties from './properties/ChipProperties';
 import ComboboxProperties from './properties/ComboboxProperties';
 import ContainerProperties from './properties/containerProperties';
 import IconProperties from './properties/IconProperties';
@@ -19,6 +20,7 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   label: LabelProperties,
   image: ImageProperties,
   combobox: ComboboxProperties,
+  chip: ChipProperties,
   iconUser: IconProperties,
   iconSearch: IconProperties,
   iconLogin: IconProperties,

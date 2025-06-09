@@ -87,5 +87,10 @@ export const components = [
         label: "TimePicker",
         icon: AllIcons.IconTimePicker,
         bg: "#18181b",
+    }, {
+        id: "chip",
+        label: "Chip",
+        icon: AllIcons.IconLabel,
+        bg: "#6366F1",
     }
 ]

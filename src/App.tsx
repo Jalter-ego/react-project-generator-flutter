@@ -28,6 +28,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   combobox: { combobox: dataCombobox },
   switch: { checked: false },
   radio: { checked: false },
+  chip: { label: 'Input Chips', bg: '#6366F1', icon: 'I', },
 };
 
 export default function App() {

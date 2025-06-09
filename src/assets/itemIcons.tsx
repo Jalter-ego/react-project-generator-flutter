@@ -41,4 +41,5 @@ export const items = [
   'switch',
   'radio',
   'timepicker',
+  'chip',
 ];

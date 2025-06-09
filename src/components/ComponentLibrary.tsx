@@ -1,6 +1,7 @@
 import { AllIcons, IconMenuDeep, IconUser } from '../assets/Icons';
 import CalendarComponent from './library/Calendar';
 import Card from './library/Card';
+import { ChipComponent } from './library/Chip';
 import { ComboboxDemo } from './library/Combobox';
 import Container from './library/Container';
 import ImageComponent from './library/Image';
@@ -124,6 +125,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   combobox: ComboboxDemo,
   switch: SwitchComponent,
   radio: RadioComponent,
+  chip: ChipComponent,
   timepicker: TimePickerComponent,
   iconLock: AllIcons.IconLock,
   iconAdd: AllIcons.IconAdd,

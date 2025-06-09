@@ -24,6 +24,7 @@ export type ComponentInstance = {
     combobox?: ComponentInstanceCombobox;
     image?: string;
     colorFont?: string;
+    icon?: string;
   };
 };
 
