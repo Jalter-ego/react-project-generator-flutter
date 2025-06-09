@@ -158,9 +158,18 @@ export const IconCheck = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l5 5l10 -10" /></svg>
 )
 
+export const IconToggle = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icon-tabler-toggle">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <circle cx="8" cy="12" r="2" />
+        <rect x="2" y="6" width="20" height="12" rx="6" />
+    </svg>
+);
+
 
 export const AllIcons = {
     IconAdd,
+    IconToggle,
     IconArrowDown,
     IconArrowLeft,
     IconArrowRight,

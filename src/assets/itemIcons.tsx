@@ -1,4 +1,4 @@
-export const itemsIcons = [
+export const items = [
   'button',
   'textfield',
   'checkbox',
@@ -38,4 +38,5 @@ export const itemsIcons = [
   'iconX',
   'iconGoogle',
   'combobox',
+  'switch',
 ];

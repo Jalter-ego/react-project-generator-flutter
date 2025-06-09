@@ -5,6 +5,7 @@ import { ComboboxDemo } from './library/Combobox';
 import Container from './library/Container';
 import ImageComponent from './library/Image';
 import Label from './library/Label';
+import { SwitchComponent } from './library/Switch';
 import { Table } from './library/Table';
 
 export function Button({
@@ -119,6 +120,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   label: Label,
   image: ImageComponent,
   combobox: ComboboxDemo,
+  switch: SwitchComponent,
   iconLock: AllIcons.IconLock,
   iconAdd: AllIcons.IconAdd,
   iconTag: AllIcons.IconTag,
@@ -133,6 +135,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   iconPencil: AllIcons.IconPencil,
   iconX: AllIcons.IconX,
   iconGoogle: AllIcons.IconGoogle,
+  iconHeart: AllIcons.IconHeart,
   iconUser: (props) => <ClickableIcon IconComponent={AllIcons.IconUser} {...props} />,
   iconSearch: (props) => <ClickableIcon IconComponent={AllIcons.IconSearch} {...props} />,
   iconMenuDots: (props) => <ClickableIcon IconComponent={AllIcons.IconMenuDots} {...props} />,

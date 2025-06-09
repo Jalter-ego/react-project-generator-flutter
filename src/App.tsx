@@ -1,19 +1,19 @@
 import { SignedIn, UserButton } from '@clerk/clerk-react';
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
-import { itemsIcons } from './assets/itemIcons';
+import { items } from './assets/itemIcons';
 import { urlimage } from './assets/urlImage';
 import FloatingChatbot from './components/chatbot/FloatingChatbot';
 import { DropZone } from './components/DropZone';
 import { data, header } from './components/library/Table';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
-import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 import { dataCombobox } from './constants/dataCombobox';
-import { useParams } from 'react-router-dom';
 import { fetchProjectById, fetchUpdateProyect, type CreateProject } from './services/figma.service';
-import { toast } from 'sonner';
+import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -26,6 +26,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   label: { label: "Etiqueta", fontSize: 16, colorFont: "#000000" },
   image: { image: urlimage, width: 120, height: 120, borderRadius: 12, },
   combobox: { combobox: dataCombobox },
+  switch: { checked: false },
 };
 
 export default function App() {
@@ -155,7 +156,7 @@ export default function App() {
   function handleDragEnd(event: DragEndEvent) {
     if (!isDragEnabled) return;
     const { over, active, delta } = event;
-    const isNewComponent = itemsIcons.includes(active.id as string);
+    const isNewComponent = items.includes(active.id as string);
     let newScreens: ScreenType[];
 
     if (isNewComponent && over?.id === 'dropzone') {
