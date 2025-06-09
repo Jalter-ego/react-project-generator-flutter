@@ -22,3 +22,18 @@ export const fetchSignIn = async (signInDto: SignInDto) => {
   const result = await response.json();
   return result
 };
+
+export const fetchLoginGoogle = async (response: any): Promise<any> => {
+  const token = {token: response.credential}
+  
+  const serverResponse = await fetch(`${api}/auth/google`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(token),
+  });
+
+  const data = await serverResponse.json();
+  return data;
+};

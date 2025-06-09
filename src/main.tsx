@@ -7,6 +7,8 @@ import { Toaster } from 'sonner'
 import './index.css'
 import { UserProvider } from './hooks/userContext'
 import SyncUserWithBackend from './hooks/useSignIn'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -18,13 +20,15 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl='/'>
-      <BrowserRouter>
-        <UserProvider>
-          <SyncUserWithBackend/>
-          <Router />
-          <Toaster />
-        </UserProvider>
-      </BrowserRouter>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+        <BrowserRouter>
+          <UserProvider>
+            <SyncUserWithBackend />
+            <Router />
+            <Toaster />
+          </UserProvider>
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </ClerkProvider>
   </StrictMode>,
 )
