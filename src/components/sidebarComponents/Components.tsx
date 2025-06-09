@@ -77,10 +77,15 @@ export const components = [
         label: "Switch",
         icon: AllIcons.IconToggle,
         bg: "#18181b",
-    },{
+    }, {
         id: "radio",
         label: "Radio",
         icon: AllIcons.IconRadio,
+        bg: "#18181b",
+    }, {
+        id: "timepicker",
+        label: "TimePicker",
+        icon: AllIcons.IconTimePicker,
         bg: "#18181b",
     }
 ]

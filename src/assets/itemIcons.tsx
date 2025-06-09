@@ -40,4 +40,5 @@ export const items = [
   'combobox',
   'switch',
   'radio',
+  'timepicker',
 ];

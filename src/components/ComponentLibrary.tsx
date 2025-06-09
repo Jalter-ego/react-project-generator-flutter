@@ -8,6 +8,7 @@ import Label from './library/Label';
 import { RadioComponent } from './library/Radio';
 import { SwitchComponent } from './library/Switch';
 import { Table } from './library/Table';
+import TimePickerComponent from './library/TimePicker';
 
 export function Button({
   label = 'Botón',
@@ -123,6 +124,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   combobox: ComboboxDemo,
   switch: SwitchComponent,
   radio: RadioComponent,
+  timepicker: TimePickerComponent,
   iconLock: AllIcons.IconLock,
   iconAdd: AllIcons.IconAdd,
   iconTag: AllIcons.IconTag,
