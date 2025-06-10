@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
-import { items } from './assets/itemIcons';
+import { items } from './assets/itemsComponents';
 import { urlimage, urlImageUser } from './assets/urlImage';
 import FloatingChatbot from './components/chatbot/FloatingChatbot';
 import { DropZone } from './components/DropZone';

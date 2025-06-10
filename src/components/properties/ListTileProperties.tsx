@@ -1,3 +1,4 @@
+import { iconOptions } from "@/assets/itemIcons";
 import type { PropertiesEditorProps } from "../../types/ComponentsPropertiesEditor";
 
 export default function ListTileListProperties({
@@ -40,16 +41,6 @@ export default function ListTileListProperties({
             list: updatedList,
         });
     };
-
-    const iconOptions = [
-        "IconUser",
-        "IconMessage",
-        "IconHeart",
-        "IconMenuDots",
-        "IconLock",
-        "IconSearch",
-        "IconArrowRight",
-    ];
 
     return (
         <div className="flex flex-col gap-6">
