@@ -27,6 +27,11 @@ export type ComponentInstance = {
     icon?: string;
     size?: number;
     borderColor?: string;
+    value?: number;
+    min?: number;
+    max?: number;
+    step?: number;
+    color?: string;
   };
 };
 

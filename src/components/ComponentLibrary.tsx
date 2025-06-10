@@ -8,6 +8,7 @@ import Container from './library/Container';
 import ImageComponent from './library/Image';
 import Label from './library/Label';
 import { RadioComponent } from './library/Radio';
+import { SliderComponent } from './library/Slider';
 import { SwitchComponent } from './library/Switch';
 import { Table } from './library/Table';
 import TimePickerComponent from './library/TimePicker';
@@ -144,6 +145,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   iconX: AllIcons.IconX,
   iconGoogle: AllIcons.IconGoogle,
   iconHeart: AllIcons.IconHeart,
+  slider: SliderComponent,
   iconUser: (props) => <ClickableIcon IconComponent={AllIcons.IconUser} {...props} />,
   iconSearch: (props) => <ClickableIcon IconComponent={AllIcons.IconSearch} {...props} />,
   iconMenuDots: (props) => <ClickableIcon IconComponent={AllIcons.IconMenuDots} {...props} />,

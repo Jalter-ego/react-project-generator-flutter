@@ -43,4 +43,5 @@ export const items = [
   'timepicker',
   'chip',
   'circleavatar',
+  'slider',
 ];

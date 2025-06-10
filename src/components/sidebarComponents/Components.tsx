@@ -97,5 +97,10 @@ export const components = [
         label: "Avatar",
         icon: AllIcons.IconUser,
         bg: "#18181b",
+    }, {
+        id: "slider",
+        label: "Slider",
+        icon: AllIcons.IconSlider,
+        bg: "#18181b",
     }
 ]

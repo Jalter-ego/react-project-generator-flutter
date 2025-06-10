@@ -9,6 +9,7 @@ import ContainerProperties from './properties/containerProperties';
 import IconProperties from './properties/IconProperties';
 import ImageProperties from './properties/ImageProperties';
 import LabelProperties from './properties/LabelProperties';
+import SliderProperties from './properties/SliderProperties';
 import TableProperties from './properties/TableProperties';
 import TextfieldProperties from './properties/TextfieldProperties';
 
@@ -23,6 +24,7 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   combobox: ComboboxProperties,
   chip: ChipProperties,
   circleavatar: CircleAvatarProperties,
+  slider: SliderProperties,
   iconUser: IconProperties,
   iconSearch: IconProperties,
   iconLogin: IconProperties,

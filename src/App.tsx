@@ -29,7 +29,8 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   switch: { checked: false },
   radio: { checked: false },
   chip: { label: 'Input Chips', bg: '#6366F1', icon: 'I', },
-  circleavatar: { image: urlImageUser, size: 80, borderColor: "#ffffff" }
+  circleavatar: { image: urlImageUser, size: 80, borderColor: "#ffffff" },
+  slider: { value: 40, min: 0, max: 100, step: 1 }
 };
 
 export default function App() {
@@ -99,7 +100,7 @@ export default function App() {
     try {
       const data = await fetchProjectById(id);
       console.log(data);
-      
+
       setProject(data)
       if (data?.screens && data.screens.length > 0) {
         updateScreensFromJSON(data.screens);
@@ -131,7 +132,7 @@ export default function App() {
         screens: screens
       }
       console.log(updateProyect);
-      
+
 
       await fetchUpdateProyect(updateProyect, id)
       setHasUnsavedChanges(false);
