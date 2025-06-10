@@ -11,7 +11,7 @@ import { data, header } from './components/library/Table';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
 import { dataCombobox } from './constants/dataCombobox';
-import { fetchProjectById, fetchUpdateProyect, type CreateProject } from './services/figma.service';
+import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type CreateProject } from './services/figma.service';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 import HeaderDesign from './components/HeaderDesign';
 import { functionsApp } from './lib/functionsApp';
@@ -250,6 +250,14 @@ export default function App() {
       , currentScreenId, updateWithHistory, selectedComponentId, setSelectedComponentId
     })
 
+  const exportToFlutter = async() =>{
+    try {
+      await fetchGenerateProyect(screens)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="flex h-screen bg-gray-900">
       <DndContext onDragEnd={handleDragEnd}>
@@ -271,6 +279,7 @@ export default function App() {
             isDragEnabled={isDragEnabled}
             saveProject={saveProject}
             setIsDragEnabled={setIsDragEnabled}
+            exportToFlutter={exportToFlutter}
           />
           <div className="flex flex-1">
             <DropZone
