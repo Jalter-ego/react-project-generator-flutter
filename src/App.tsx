@@ -252,7 +252,7 @@ export default function App() {
 
   const exportToFlutter = async() =>{
     try {
-      const data = await fetchGenerateProyect(screens)
+      await fetchGenerateProyect(screens)
     } catch (error) {
       console.log(error);
     }
