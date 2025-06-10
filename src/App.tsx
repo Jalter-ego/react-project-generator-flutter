@@ -1,4 +1,3 @@
-import { SignedIn, UserButton } from '@clerk/clerk-react';
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,6 +13,8 @@ import SidebarPrimary from './components/SidebarPrimary';
 import { dataCombobox } from './constants/dataCombobox';
 import { fetchProjectById, fetchUpdateProyect, type CreateProject } from './services/figma.service';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
+import HeaderDesign from './components/HeaderDesign';
+import { functionsApp } from './lib/functionsApp';
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -208,87 +209,6 @@ export default function App() {
 
     updateWithHistory(newScreens);
   }
-
-  function updateComponentProperties(id: string, properties: ComponentInstance['properties']) {
-    const newScreens = screens.map(screen => {
-      if (screen.id === currentScreenId) {
-        return {
-          ...screen,
-          components: screen.components.map(comp =>
-            comp.id === id ? { ...comp, properties } : comp
-          ),
-        };
-      }
-      return screen;
-    });
-    updateWithHistory(newScreens);
-  }
-
-  function deleteComponent(id: string) {
-    const newScreens = screens.map(screen => {
-      if (screen.id === currentScreenId) {
-        return {
-          ...screen,
-          components: screen.components.filter(comp => comp.id !== id),
-        };
-      }
-      return screen;
-    });
-    updateWithHistory(newScreens);
-    if (selectedComponentId === id) setSelectedComponentId(null);
-  }
-
-  function duplicateComponent(id: string) {
-    const newScreens = screens.map(screen => {
-      if (screen.id === currentScreenId) {
-        const component = screen.components.find(comp => comp.id === id);
-        if (component) {
-          return {
-            ...screen,
-            components: [
-              ...screen.components,
-              {
-                ...component,
-                id: uuidv4(),
-                x: component.x + 20,
-                y: component.y + 20,
-              },
-            ],
-          };
-        }
-      }
-      return screen;
-    });
-    updateWithHistory(newScreens);
-  }
-
-  function undo() {
-    if (historyIndex > 0) {
-      const newIndex = historyIndex - 1;
-      setHistoryIndex(newIndex);
-      setScreens(history[newIndex]);
-    }
-  }
-
-  function redo() {
-    if (historyIndex < history.length - 1) {
-      const newIndex = historyIndex + 1;
-      setHistoryIndex(newIndex);
-      setScreens(history[newIndex]);
-    }
-  }
-
-  function exportDesign() {
-    const json = JSON.stringify(screens, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'design.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
   const selectedComponent = currentScreen.components.find(comp => comp.id === selectedComponentId) || null;
 
   const createNewScreen = () => {
@@ -322,6 +242,12 @@ export default function App() {
     updateWithHistory(newScreens);
   };
 
+  const { undo, redo, exportDesign, deleteComponent, duplicateComponent, updateComponentProperties } = functionsApp
+    ({
+      historyIndex, setHistoryIndex, setScreens, history, screens
+      , currentScreenId, updateWithHistory, selectedComponentId, setSelectedComponentId
+    })
+
   return (
     <div className="flex h-screen bg-gray-900">
       <DndContext onDragEnd={handleDragEnd}>
@@ -335,45 +261,15 @@ export default function App() {
           />
         </div>
         <div className="flex flex-col flex-1">
-          <div className="bg-[#1f1f1f] p-3 flex justify-between items-center">
-            <div className="flex gap-2">
-              <button
-                onClick={undo}
-                disabled={historyIndex === 0}
-                className="px-3 py-1 bg-blue-500 text-white rounded-md disabled:bg-gray-600 hover:bg-blue-600 transition-colors"
-              >
-                Undo
-              </button>
-              <button
-                onClick={redo}
-                disabled={historyIndex === history.length - 1}
-                className="px-3 py-1 bg-blue-500 text-white rounded-md disabled:bg-gray-600 hover:bg-blue-600 transition-colors"
-              >
-                Redo
-              </button>
-              <button
-                onClick={() => setIsDragEnabled(!isDragEnabled)}
-                className={`px-3 py-1 ${isDragEnabled ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white rounded-md transition-colors`}
-              >
-                {isDragEnabled ? 'Pausar Arrastre' : 'Habilitar Arrastre'}
-              </button>
-              <button
-                onClick={saveProject}
-                className="px-3 py-1 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors"
-              >
-                Save Project
-              </button>
-              <button
-                onClick={exportDesign}
-                className="px-3 py-1 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
-              >
-                Export JSON
-              </button>
-            </div>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </div>
+          <HeaderDesign
+            redo={redo}
+            undo={undo}
+            exportDesign={exportDesign}
+            historyIndex={historyIndex}
+            isDragEnabled={isDragEnabled}
+            saveProject={saveProject}
+            setIsDragEnabled={setIsDragEnabled}
+          />
           <div className="flex flex-1">
             <DropZone
               components={currentScreen.components}
