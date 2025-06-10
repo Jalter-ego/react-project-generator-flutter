@@ -1,4 +1,5 @@
 import { AllIcons, IconMenuDeep, IconUser } from '../assets/Icons';
+import { BadgeComponent } from './library/Badge';
 import CalendarComponent from './library/Calendar';
 import Card from './library/Card';
 import { ChipComponent } from './library/Chip';
@@ -130,6 +131,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   switch: SwitchComponent,
   radio: RadioComponent,
   chip: ChipComponent,
+  badge: BadgeComponent,
   togglebuttons: ToggleButtonsComponent,
   listtilelist: ListTileListComponent,
   circleavatar: CircleAvatarComponent,

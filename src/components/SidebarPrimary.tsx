@@ -1,5 +1,6 @@
 import type { ComponentInstance, ScreenType } from '../types/CanvasItem';
 import type { PropertiesEditorProps } from '../types/ComponentsPropertiesEditor';
+import BadgeProperties from './properties/BadgeProperties';
 import ButtonProperties from './properties/ButtonProperties';
 import CardProperties from './properties/CardProperties';
 import ChipProperties from './properties/ChipProperties';
@@ -29,6 +30,7 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   slider: SliderProperties,
   listtilelist: ListTileListProperties,
   togglebuttons: ToggleButtonsProperties,
+  badge: BadgeProperties,
   iconUser: IconProperties,
   iconSearch: IconProperties,
   iconLogin: IconProperties,

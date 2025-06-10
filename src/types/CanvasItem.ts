@@ -41,6 +41,8 @@ export type ComponentInstance = {
     }[];
     buttons?: { icon: string }[];
     initialActive?: number;
+    position?: string;
+    text?: string;
   };
 };
 

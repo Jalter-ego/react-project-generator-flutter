@@ -34,7 +34,8 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   listtilelist: {
     list: [{ icon: "IconUser", title: "Usuario 1", subtitle: "Subdetalle", showCheckbox: true, checked: false, },],
   },
-  togglebuttons: { buttons: [{ icon: "IconHeart" }, { icon: "IconUser" },], initialActive: 0 }
+  togglebuttons: { buttons: [{ icon: "IconHeart" }, { icon: "IconUser" },], initialActive: 0 },
+  badge: { label: "3", bg: "#ff3b30", position: "top-right", icon: "IconUser" ,text:"👽"}
 };
 
 export default function App() {

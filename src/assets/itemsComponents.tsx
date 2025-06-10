@@ -45,5 +45,6 @@ export const items = [
   'circleavatar',
   'slider',
   'listtilelist',
-  'togglebuttons'
+  'togglebuttons',
+  'badge',
 ];

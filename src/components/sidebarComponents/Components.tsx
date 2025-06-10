@@ -112,5 +112,10 @@ export const components = [
         label: "Toggle Buttons",
         icon: AllIcons.IconToggle,
         bg: "#6366F1",
+    }, {
+        id: "badge",
+        label: "Badge",
+        icon: AllIcons.IconNotification,
+        bg: "#18181b"
     }
 ]
