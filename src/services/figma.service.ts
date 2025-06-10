@@ -79,3 +79,22 @@ function sanitizeProject(project: CreateProject) {
     })),
   };
 }
+
+
+export const fetchGenerateProyect = async (json: any) => {
+  const response = await fetch(`${api}/flutter`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(json),
+  });
+
+  if (!response.ok) throw new Error("Error en la generación");
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'flutter_project.zip';
+  a.click();
+  window.URL.revokeObjectURL(url);
+};

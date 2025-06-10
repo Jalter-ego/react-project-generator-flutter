@@ -6,13 +6,14 @@ interface HeaderDesignProps{
     redo: ()=> void,
     saveProject: ()=> void
     exportDesign: ()=> void
+    exportToFlutter: ()=> void
     historyIndex: number
     isDragEnabled: Boolean
     setIsDragEnabled: Dispatch<SetStateAction<boolean>>
 }
 
 export default function HeaderDesign({
-    undo,historyIndex,redo,isDragEnabled,setIsDragEnabled,saveProject,exportDesign
+    undo,historyIndex,redo,isDragEnabled,setIsDragEnabled,saveProject,exportDesign,exportToFlutter
 }:HeaderDesignProps){
     return(
         <div className="bg-[#1f1f1f] p-3 flex justify-between items-center">
@@ -48,6 +49,12 @@ export default function HeaderDesign({
                 className="px-3 py-1 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
               >
                 Export JSON
+              </button>
+              <button
+                onClick={exportToFlutter}
+                className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+              >
+                Export to Flutter
               </button>
             </div>
             <SignedIn>
