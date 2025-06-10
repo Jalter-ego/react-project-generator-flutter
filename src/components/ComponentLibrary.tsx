@@ -7,6 +7,7 @@ import { ComboboxDemo } from './library/Combobox';
 import Container from './library/Container';
 import ImageComponent from './library/Image';
 import Label from './library/Label';
+import { ListTileListComponent } from './library/ListTile';
 import { RadioComponent } from './library/Radio';
 import { SliderComponent } from './library/Slider';
 import { SwitchComponent } from './library/Switch';
@@ -128,6 +129,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   switch: SwitchComponent,
   radio: RadioComponent,
   chip: ChipComponent,
+  listtilelist: ListTileListComponent,
   circleavatar: CircleAvatarComponent,
   timepicker: TimePickerComponent,
   iconLock: AllIcons.IconLock,

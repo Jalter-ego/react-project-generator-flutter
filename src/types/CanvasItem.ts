@@ -32,6 +32,13 @@ export type ComponentInstance = {
     max?: number;
     step?: number;
     color?: string;
+    list?: {
+      icon: string;
+      title: string;
+      subtitle?: string;
+      showCheckbox?: boolean;
+      checked?: boolean;
+    }[];
   };
 };
 

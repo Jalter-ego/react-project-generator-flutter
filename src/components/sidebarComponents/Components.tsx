@@ -102,5 +102,10 @@ export const components = [
         label: "Slider",
         icon: AllIcons.IconSlider,
         bg: "#18181b",
+    }, {
+        id: "listtilelist",
+        label: "Lista de Tiles",
+        icon: AllIcons.IconList,
+        bg: "#18181b",
     }
 ]

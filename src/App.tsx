@@ -30,7 +30,10 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   radio: { checked: false },
   chip: { label: 'Input Chips', bg: '#6366F1', icon: 'I', },
   circleavatar: { image: urlImageUser, size: 80, borderColor: "#ffffff" },
-  slider: { value: 40, min: 0, max: 100, step: 1 }
+  slider: { value: 40, min: 0, max: 100, step: 10 },
+  listtilelist: {
+    list: [{ icon: "IconUser", title: "Usuario 1", subtitle: "Subdetalle", showCheckbox: true, checked: false, },],
+  }
 };
 
 export default function App() {

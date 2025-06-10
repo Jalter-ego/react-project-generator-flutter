@@ -44,4 +44,5 @@ export const items = [
   'chip',
   'circleavatar',
   'slider',
+  'listtilelist',
 ];
