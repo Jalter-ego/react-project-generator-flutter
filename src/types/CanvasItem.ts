@@ -39,6 +39,8 @@ export type ComponentInstance = {
       showCheckbox?: boolean;
       checked?: boolean;
     }[];
+    buttons?: { icon: string }[];
+    initialActive?: number;
   };
 };
 

@@ -13,6 +13,7 @@ import ListTileListProperties from './properties/ListTileProperties';
 import SliderProperties from './properties/SliderProperties';
 import TableProperties from './properties/TableProperties';
 import TextfieldProperties from './properties/TextfieldProperties';
+import ToggleButtonsProperties from './properties/ToggleButtonsProperties';
 
 const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   button: ButtonProperties,
@@ -27,6 +28,7 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   circleavatar: CircleAvatarProperties,
   slider: SliderProperties,
   listtilelist: ListTileListProperties,
+  togglebuttons: ToggleButtonsProperties,
   iconUser: IconProperties,
   iconSearch: IconProperties,
   iconLogin: IconProperties,

@@ -13,6 +13,7 @@ import { SliderComponent } from './library/Slider';
 import { SwitchComponent } from './library/Switch';
 import { Table } from './library/Table';
 import TimePickerComponent from './library/TimePicker';
+import { ToggleButtonsComponent } from './library/ToggleButtons';
 
 export function Button({
   label = 'Botón',
@@ -129,6 +130,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   switch: SwitchComponent,
   radio: RadioComponent,
   chip: ChipComponent,
+  togglebuttons: ToggleButtonsComponent,
   listtilelist: ListTileListComponent,
   circleavatar: CircleAvatarComponent,
   timepicker: TimePickerComponent,

@@ -33,7 +33,8 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
   slider: { value: 40, min: 0, max: 100, step: 10 },
   listtilelist: {
     list: [{ icon: "IconUser", title: "Usuario 1", subtitle: "Subdetalle", showCheckbox: true, checked: false, },],
-  }
+  },
+  togglebuttons: { buttons: [{ icon: "IconHeart" }, { icon: "IconUser" },], initialActive: 0 }
 };
 
 export default function App() {

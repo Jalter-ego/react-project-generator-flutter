@@ -107,5 +107,10 @@ export const components = [
         label: "Lista de Tiles",
         icon: AllIcons.IconList,
         bg: "#18181b",
+    }, {
+        id: "togglebuttons",
+        label: "Toggle Buttons",
+        icon: AllIcons.IconToggle,
+        bg: "#6366F1",
     }
 ]
