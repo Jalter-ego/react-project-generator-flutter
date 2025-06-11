@@ -10,6 +10,7 @@ import ImageComponent from './library/Image';
 import Label from './library/Label';
 import { ListTileListComponent } from './library/ListTile';
 import { RadioComponent } from './library/Radio';
+import SidebarMovil from './library/SidebarMovil';
 import { SliderComponent } from './library/Slider';
 import { SwitchComponent } from './library/Switch';
 import { Table } from './library/Table';
@@ -124,6 +125,7 @@ export const componentMap: Record<string, (props: any) => React.JSX.Element> = {
   table: Table,
   card: Card,
   calendar: CalendarComponent,
+  sidebar: SidebarMovil,
   container: Container,
   label: Label,
   image: ImageComponent,

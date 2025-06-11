@@ -16,7 +16,7 @@ export default function HeaderDesign({
     undo,historyIndex,redo,isDragEnabled,setIsDragEnabled,saveProject,exportDesign,exportToFlutter
 }:HeaderDesignProps){
     return(
-        <div className="bg-[#1f1f1f] p-3 flex justify-between items-center">
+        <div className="bg-[#1f1f1f] p-3 flex justify-between items-center sticky">
             <div className="flex gap-2">
               <button
                 onClick={undo}

@@ -15,6 +15,7 @@ import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type Create
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 import HeaderDesign from './components/HeaderDesign';
 import { functionsApp } from './lib/functionsApp';
+import { dataSidebar } from './constants/dataSidebar';
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -36,7 +37,8 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
     list: [{ icon: "IconUser", title: "Usuario 1", subtitle: "Subdetalle", showCheckbox: true, checked: false, },],
   },
   togglebuttons: { buttons: [{ icon: "IconHeart" }, { icon: "IconUser" },], initialActive: 0 },
-  badge: { label: "3", bg: "#ff3b30", position: "top-right", icon: "IconUser" ,text:"👽"}
+  badge: { label: "3", bg: "#ff3b30", position: "top-right", icon: "IconUser", text: "👽" },
+  sidebar: { sidebar: dataSidebar }
 };
 
 export default function App() {
@@ -169,7 +171,9 @@ export default function App() {
   function handleDragEnd(event: DragEndEvent) {
     if (!isDragEnabled) return;
     const { over, active, delta } = event;
+
     const isNewComponent = items.includes(active.id as string);
+
     let newScreens: ScreenType[];
 
     if (isNewComponent && over?.id === 'dropzone') {
@@ -250,7 +254,7 @@ export default function App() {
       , currentScreenId, updateWithHistory, selectedComponentId, setSelectedComponentId
     })
 
-  const exportToFlutter = async() =>{
+  const exportToFlutter = async () => {
     try {
       await fetchGenerateProyect(screens)
     } catch (error) {
@@ -270,18 +274,18 @@ export default function App() {
             onRenameScreen={renameScreen}
           />
         </div>
-        <div className="flex flex-col flex-1">
-          <HeaderDesign
-            redo={redo}
-            undo={undo}
-            exportDesign={exportDesign}
-            historyIndex={historyIndex}
-            isDragEnabled={isDragEnabled}
-            saveProject={saveProject}
-            setIsDragEnabled={setIsDragEnabled}
-            exportToFlutter={exportToFlutter}
-          />
-          <div className="flex flex-1">
+        <div className="flex items-center justify-between h-screen w-full">
+          <div className='grid h-screen w-full'>
+            <HeaderDesign
+              redo={redo}
+              undo={undo}
+              exportDesign={exportDesign}
+              historyIndex={historyIndex}
+              isDragEnabled={isDragEnabled}
+              saveProject={saveProject}
+              setIsDragEnabled={setIsDragEnabled}
+              exportToFlutter={exportToFlutter}
+            />
             <DropZone
               components={currentScreen.components}
               selectedComponentId={selectedComponentId}
@@ -289,6 +293,8 @@ export default function App() {
               navigateToScreen={navigateToScreen}
               isDragEnabled={isDragEnabled}
             />
+          </div>
+          <div className="">
             <SidebarPrimary
               selectedComponent={selectedComponent}
               updateComponentProperties={updateComponentProperties}
