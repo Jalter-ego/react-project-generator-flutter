@@ -68,7 +68,15 @@ export function DraggableInsidePhone({
   };
   const childrenWithProps = React.Children.map(children, child => {
     if (React.isValidElement(child)) {
+      const type = child.type;
+
+      if (typeof type === "function" && type.name === "SidebarMovil") {
+        return React.cloneElement(child as React.ReactElement<any>, {
+          navigateToScreen,
+        });
+      }
       const props = child.props as { navigateTo?: string };
+
       if (props.navigateTo) {
         return React.cloneElement(child, {
           onClick: (e: React.MouseEvent) => {

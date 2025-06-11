@@ -43,6 +43,7 @@ export type ComponentInstance = {
     initialActive?: number;
     position?: string;
     text?: string;
+    sidebar?: ComponentInstanceSidebar
   };
 };
 
@@ -60,6 +61,17 @@ export type ComponentInstanceCard = {
   image: string;
   description: string;
   price: number;
+}
+
+export type ComponentInstanceSidebar = {
+  title: string
+  subtitle: string
+  bg: string
+  items: {
+    item: string,
+    icon: string,
+    navigateTo?: string;
+  }[]
 }
 
 

@@ -117,5 +117,11 @@ export const components = [
         label: "Badge",
         icon: AllIcons.IconNotification,
         bg: "#18181b"
+    },
+    {
+        id: "sidebar",
+        label: "Sidebar",
+        icon: AllIcons.IconMenuDeep,
+        bg: "#18181b"
     }
 ]

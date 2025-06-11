@@ -47,4 +47,5 @@ export const items = [
   'listtilelist',
   'togglebuttons',
   'badge',
+  'sidebar',
 ];

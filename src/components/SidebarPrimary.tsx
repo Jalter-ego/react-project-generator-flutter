@@ -11,6 +11,7 @@ import IconProperties from './properties/IconProperties';
 import ImageProperties from './properties/ImageProperties';
 import LabelProperties from './properties/LabelProperties';
 import ListTileListProperties from './properties/ListTileProperties';
+import SidebarProperties from './properties/SidebarProperties';
 import SliderProperties from './properties/SliderProperties';
 import TableProperties from './properties/TableProperties';
 import TextfieldProperties from './properties/TextfieldProperties';
@@ -25,6 +26,7 @@ const componentEditors: Record<string, React.FC<PropertiesEditorProps>> = {
   label: LabelProperties,
   image: ImageProperties,
   combobox: ComboboxProperties,
+  sidebar: SidebarProperties,
   chip: ChipProperties,
   circleavatar: CircleAvatarProperties,
   slider: SliderProperties,
@@ -64,7 +66,8 @@ export default function SidebarPrimary({
   const PropertiesEditor = selectedComponent ? componentEditors[selectedComponent.type] : null;
 
   return (
-    <aside className="bg-[#1f1f1f] border-l border-gray-700 w-80 px-6 text-white">
+    <aside className="bg-[#1f1f1f] w-80 px-6 text-white h-screen overflow-y-auto [scrollbar-width:none]
+      py-5">
       <section className="flex flex-col gap-4 border-b border-gray-600 pb-4">
         <div className="flex gap-2">
           <button className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">
