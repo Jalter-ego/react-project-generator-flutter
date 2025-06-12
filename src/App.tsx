@@ -1,5 +1,5 @@
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,6 +15,7 @@ import { dataCombobox } from './constants/dataCombobox';
 import { dataSidebar } from './constants/dataSidebar';
 import { functionsApp } from './lib/functionsApp';
 import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type CreateProject } from './services/figma.service';
+import { socketService } from './services/socket.service';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
@@ -68,6 +69,36 @@ export default function App() {
   const saveToLocalStorage = debounce((screens: ScreenType[]) => {
     localStorage.setItem('design-screens', JSON.stringify(screens));
   }, 500);
+  const lastRemoteScreens = useRef<ScreenType[] | null>(null);
+
+  function areScreensEqual(a: ScreenType[], b: ScreenType[]) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+  useEffect(() => {
+    if (!id) return;
+
+    socketService.connect(); // 1. Establece conexión con backend
+    socketService.joinRoom(id); // 2. Se une a la sala del proyecto por su ID
+
+    socketService.onCanvasUpdated((data) => {
+      if (!areScreensEqual(data, screens)) {
+        console.log('🔁 Canvas actualizado desde el servidor');
+        lastRemoteScreens.current = data;
+        updateScreensFromJSON(data);
+      }
+    });
+
+    // Cleanup al desmontar
+    return () => {
+      socketService.offCanvasUpdated(); // 4. Detiene la escucha para evitar duplicaciones
+    };
+  }, [id]);
+
+  useEffect(() => {
+    if (id && lastRemoteScreens.current && !areScreensEqual(screens, lastRemoteScreens.current)) {
+      socketService.sendCanvasUpdate(id, screens);
+    }
+  }, [screens]);
 
   function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
     let timeout: ReturnType<typeof setTimeout> | null = null;
