@@ -9,13 +9,15 @@ export default function SidebarComponents({
     currentScreenId,
     setCurrentScreenId,
     onCreateNewScreen,
-    onRenameScreen
+    onRenameScreen,
+    onDeleteScreen
 }: {
     screens: ScreenType[];
     currentScreenId: string;
     setCurrentScreenId: (id: string) => void;
     onCreateNewScreen: () => void;
     onRenameScreen: (id: string, newName: string) => void;
+    onDeleteScreen: (id: string) => void;
 }) {
 
     return (
@@ -26,6 +28,7 @@ export default function SidebarComponents({
                 setCurrentScreenId={setCurrentScreenId}
                 onCreateNewScreen={onCreateNewScreen}
                 onRenameScreen={onRenameScreen}
+                onDeleteScreen={onDeleteScreen}
             />
             <header className='border-b border-zinc-600 w-full flex px-2 pb-3'>
                 <h1 className='font-semibold text-[14px]'>Componentes</h1>

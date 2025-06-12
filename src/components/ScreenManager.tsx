@@ -8,12 +8,14 @@ export function ScreenManager({
     setCurrentScreenId,
     onCreateNewScreen,
     onRenameScreen,
+    onDeleteScreen,
 }: {
     screens: ScreenType[];
     currentScreenId: string;
     setCurrentScreenId: (id: string) => void;
     onCreateNewScreen: () => void;
     onRenameScreen: (id: string, newName: string) => void;
+    onDeleteScreen: (id: string) => void;
 }) {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [newName, setNewName] = useState('');
@@ -75,6 +77,13 @@ export function ScreenManager({
                                     title="Doble clic para editar"
                                 >
                                     {screen.name}
+                                </button>
+                                <button
+                                    onClick={() => onDeleteScreen(screen.id)}
+                                    className="text-xs text-red-400 opacity-0 group-hover:opacity-100 ml-1"
+                                    title="Eliminar"
+                                >
+                                    ✕
                                 </button>
                                 <button
                                     onClick={() => handleStartEditing(screen)}

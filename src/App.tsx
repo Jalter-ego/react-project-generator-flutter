@@ -7,15 +7,15 @@ import { items } from './assets/itemsComponents';
 import { urlimage, urlImageUser } from './assets/urlImage';
 import FloatingChatbot from './components/chatbot/FloatingChatbot';
 import { DropZone } from './components/DropZone';
+import HeaderDesign from './components/HeaderDesign';
 import { data, header } from './components/library/Table';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
 import { dataCombobox } from './constants/dataCombobox';
+import { dataSidebar } from './constants/dataSidebar';
+import { functionsApp } from './lib/functionsApp';
 import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type CreateProject } from './services/figma.service';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
-import HeaderDesign from './components/HeaderDesign';
-import { functionsApp } from './lib/functionsApp';
-import { dataSidebar } from './constants/dataSidebar';
 
 const defaultProperties: Record<string, ComponentInstance['properties']> = {
   button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
@@ -248,6 +248,17 @@ export default function App() {
     updateWithHistory(newScreens);
   };
 
+  const deleteScreen = (id: string) => {
+    if (screens.length <= 1) {
+      alert("Debe haber al menos una pantalla.");
+      return;
+    }
+    const filteredScreens = screens.filter(screen => screen.id !== id);
+    const nextScreen = filteredScreens[0];
+    updateWithHistory(filteredScreens);
+    setCurrentScreenId(nextScreen.id);
+  };
+
   const { undo, redo, exportDesign, deleteComponent, duplicateComponent, updateComponentProperties } = functionsApp
     ({
       historyIndex, setHistoryIndex, setScreens, history, screens
@@ -272,6 +283,7 @@ export default function App() {
             setCurrentScreenId={setCurrentScreenId}
             onCreateNewScreen={createNewScreen}
             onRenameScreen={renameScreen}
+            onDeleteScreen={deleteScreen}
           />
         </div>
         <div className="flex items-center justify-between h-screen w-full">
