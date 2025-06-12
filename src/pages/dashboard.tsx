@@ -35,7 +35,7 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="w-full min-h-screen bg-gray-50">
+        <div className="w-full min-h-dvh bg-gray-50 grid grid-rows-[auto_1fr_auto]">
             <header className="border-b bg-white shadow-sm flex justify-between items-center p-4
                 sm:px-10 px-20">
                 <h1 className="text-2xl font-bold text-primary">DesignHub</h1>
@@ -102,7 +102,7 @@ export default function Dashboard() {
                     {projects.length === 0 ? (
                         <p className="text-gray-500">No recent projects. Create one to get started!</p>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-tada">
                             {projects.map((project) => (
                                 <Card
                                     key={project.id}
