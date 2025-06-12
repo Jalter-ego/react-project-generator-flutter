@@ -33,16 +33,13 @@ export function ScreenManager({
     };
 
     return (
-        <div className="flex flex-col gap-2 px-2">
-            <div className="flex items-center justify-between">
-                <h3 className="text-xs font-semibold text-zinc-400">Pantallas</h3>
-                <button
-                    onClick={onCreateNewScreen}
-                    className="text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                    + Nueva
-                </button>
-            </div>
+        <div className="flex flex-col gap-2">
+            <button
+                onClick={onCreateNewScreen}
+                className="text-xs py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+                + Nueva
+            </button>
 
             {screens.map((screen) => {
                 const isEditing = editingId === screen.id;

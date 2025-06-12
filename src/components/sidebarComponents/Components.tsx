@@ -15,7 +15,7 @@ export const components = [
         label: "TextField",
         icon: AllIcons.IconTable,
         component: TextField,
-        bg: "#18181b",
+        bg: "#6366F1",
     },
     {
         id: "checkbox",
@@ -54,7 +54,7 @@ export const components = [
         id: "container",
         label: "Container",
         icon: AllIcons.IconTable,
-        bg: "#18181b",
+        bg: "#6366F1",
     },
     {
         id: "label",
@@ -83,15 +83,15 @@ export const components = [
         icon: AllIcons.IconRadio,
         bg: "#18181b",
     }, {
-        id: "timepicker",
-        label: "TimePicker",
-        icon: AllIcons.IconTimePicker,
-        bg: "#18181b",
-    }, {
         id: "chip",
         label: "Chip",
         icon: AllIcons.IconLabel,
         bg: "#6366F1",
+    }, {
+        id: "timepicker",
+        label: "TimePicker",
+        icon: AllIcons.IconTimePicker,
+        bg: "#18181b",
     }, {
         id: "circleavatar",
         label: "Avatar",
@@ -103,6 +103,11 @@ export const components = [
         icon: AllIcons.IconSlider,
         bg: "#18181b",
     }, {
+        id: "badge",
+        label: "Badge",
+        icon: AllIcons.IconNotification,
+        bg: "#18181b"
+    }, {
         id: "listtilelist",
         label: "Lista de Tiles",
         icon: AllIcons.IconList,
@@ -112,11 +117,6 @@ export const components = [
         label: "Toggle Buttons",
         icon: AllIcons.IconToggle,
         bg: "#6366F1",
-    }, {
-        id: "badge",
-        label: "Badge",
-        icon: AllIcons.IconNotification,
-        bg: "#18181b"
     },
     {
         id: "sidebar",
