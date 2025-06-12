@@ -8,17 +8,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Project } from "./proyects";
 import { ModalCreateProyect } from "@/components/ModalCreateProyect";
+import LoginModal from "@/components/auth/login";
 
 export default function Dashboard() {
     const { user, logout, perfil } = useUserContext();
     const [projects, setProjects] = useState<Project[]>([]);
     const [openModal, setOpenModal] = useState(false)
-    const [, setShowLoginModal] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
 
     useEffect(() => {
         if (user?.id) {
             fetchRecentProjects();
         }
+        console.log('cambia el valor');
+        
     }, [user]);
 
     const fetchRecentProjects = async () => {
@@ -36,6 +39,7 @@ export default function Dashboard() {
 
     return (
         <div className="w-full min-h-dvh bg-gray-50 grid grid-rows-[auto_1fr_auto]">
+            <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
             <header className="border-b bg-white shadow-sm flex justify-between items-center p-4
                 sm:px-10 px-20">
                 <h1 className="text-2xl font-bold text-primary">DesignHub</h1>
@@ -54,7 +58,7 @@ export default function Dashboard() {
                     <section className="flex items-center gap-4 md:text-sm text-[10px]">
                         {!user && (
                             <button
-                                onClick={() => setShowLoginModal(true)}
+                                onClick={() => setShowLoginModal(!openModal)}
                                 className="bg-black rounded-4xl text-white font-semibold p-1.5 px-4 hover:opacity-90 transition-all duration-300"
                             >
                                 Iniciar Sesión
