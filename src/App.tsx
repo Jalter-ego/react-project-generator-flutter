@@ -74,6 +74,13 @@ export default function App() {
   function areScreensEqual(a: ScreenType[], b: ScreenType[]) {
     return JSON.stringify(a) === JSON.stringify(b);
   }
+  const shareProjectLink = () => {
+    if (!id) return;
+    const url = `${window.location.origin}/editor/${id}`;
+    navigator.clipboard.writeText(url)
+      .then(() => toast('📋 Enlace copiado al portapapeles'))
+      .catch(() => alert('Error al copiar el enlace'));
+  };
   useEffect(() => {
     if (!id) return;
 
@@ -345,6 +352,8 @@ export default function App() {
               duplicateComponent={duplicateComponent}
               screens={screens}
               currentScreenId={currentScreenId}
+              onShare={shareProjectLink}
+
             />
           </div>
         </div>

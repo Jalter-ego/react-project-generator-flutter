@@ -55,6 +55,7 @@ export default function SidebarPrimary({
   duplicateComponent,
   screens,
   currentScreenId,
+  onShare,
 }: {
   selectedComponent: ComponentInstance | null;
   updateComponentProperties: (id: string, properties: ComponentInstance['properties']) => void;
@@ -62,6 +63,7 @@ export default function SidebarPrimary({
   duplicateComponent: (id: string) => void;
   screens: ScreenType[];
   currentScreenId: string;
+  onShare: () => void;
 }) {
   const PropertiesEditor = selectedComponent ? componentEditors[selectedComponent.type] : null;
 
@@ -70,7 +72,7 @@ export default function SidebarPrimary({
       py-5">
       <section className="flex flex-col gap-4 border-b border-gray-600 pb-4">
         <div className="flex gap-2">
-          <button className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">
+          <button onClick={onShare} className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">
             Share
           </button>
           {selectedComponent && (
