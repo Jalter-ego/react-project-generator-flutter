@@ -119,7 +119,7 @@ export default function Dashboard() {
                                     <CardContent>
                                         <div className="w-full h-32 bg-gray-200 rounded mb-2">
                                                 <img
-                                                    src={'/public/thumbnail.webp'}
+                                                    src={'/thumbnail.webp'}
                                                     alt={`${project.name} thumbnail`}
                                                     className="w-full h-full object-cover rounded"
                                                 />
