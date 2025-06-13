@@ -192,7 +192,7 @@ export default function Projects() {
                             <CardContent>
                                 <div className="w-full h-40 bg-gray-200 rounded mb-4">
                                     <img
-                                        src={"/public/thumbnail.webp"}
+                                        src={"/thumbnail.webp"}
                                         alt={`${project.name} thumbnail`}
                                         className="w-full h-full object-cover rounded"
                                     />
