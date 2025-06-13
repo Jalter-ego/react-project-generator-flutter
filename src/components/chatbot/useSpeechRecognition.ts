@@ -3,12 +3,13 @@ import { useRef, useState } from 'react';
 
 export function useSpeechRecognition(
   onTranscript: (text: string) => void,
-  onError?: (msg: string) => void
+  onError?: (msg: string) => void,
+  onEndTranscript?: (finalText: string) => void // nuevo parámetro
 ) {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const timeoutRef = useRef<number | null>(null);
   const [isRecording, setIsRecording] = useState(false);
-  const MAX_RECORDING_TIME = 120000;
+  const lastTranscriptRef = useRef<string>(''); // guarda el último texto
 
   const startRecognition = () => {
     const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -28,7 +29,8 @@ export function useSpeechRecognition(
       const transcript = Array.from(event.results)
         .map(r => (r as SpeechRecognitionResult)[0].transcript)
         .join('');
-      onTranscript(transcript);
+      lastTranscriptRef.current = transcript;
+      onTranscript(transcript); // ← sigue actualizando si se desea mostrar
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
@@ -39,8 +41,16 @@ export function useSpeechRecognition(
     };
 
     recognition.onend = () => {
-      if (isRecording) recognition.start(); // reinicia si sigue grabando
-      else if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (isRecording) {
+        recognition.start(); // reinicia
+      } else {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        const finalText = lastTranscriptRef.current.trim();
+        if (finalText && onEndTranscript) {
+          onEndTranscript(finalText); // llama al callback cuando termina
+        }
+        lastTranscriptRef.current = '';
+      }
     };
 
     recognitionRef.current = recognition;
@@ -51,7 +61,7 @@ export function useSpeechRecognition(
       recognition.stop();
       setIsRecording(false);
       alert('Tiempo máximo de grabación alcanzado.');
-    }, MAX_RECORDING_TIME);
+    }, 120000);
   };
 
   const stopRecognition = () => {

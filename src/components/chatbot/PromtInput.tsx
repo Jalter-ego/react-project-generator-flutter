@@ -13,10 +13,15 @@ export default function PromptInput({ onSend, disabled = false }: PromptInputPro
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { isRecording, startRecognition, stopRecognition } = useSpeechRecognition(
-    (text) => setPrompt(text),
+    () => { }, // no actualiza el input
     (error) => {
       if (error === 'no-speech') alert('No se detectó voz. Intenta de nuevo.');
       if (error === 'not-allowed') alert('Permiso de micrófono denegado.');
+    },
+    (finalText) => {
+      if (finalText && !disabled) {
+        onSend(finalText); // ← se envía automáticamente al detener grabación
+      }
     }
   );
 
