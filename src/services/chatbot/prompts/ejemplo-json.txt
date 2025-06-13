@@ -7,12 +7,12 @@ Tu respuesta debe ser un JSON válido con la siguiente estructura:
     "components": [
       {
         "id": "uuid-del-componente",
-        "type": "tipo",  // Tipos soportados: button, textfield, checkbox, circleavatar, radio, switch, table, appbar1, card, label, image, timepicker, badge, calendar, container, slider, listtilelist, sidebar, combobox, iconUser, iconSearch, iconLock, iconMenuDeep, iconMenuDots, iconHeart, iconMessage, iconHeadphones, iconLogin, iconLogout, iconAdd, iconTag, iconShare, iconDotsHorizontal, iconPlane, iconImage, iconText, iconEmoji, iconMicrophone, iconArrowUp, iconArrowDown, iconArrowLeft, iconArrowRight, iconArrowUpDown, iconTrash, iconPencil, iconX, iconGoogle
+        "type": "tipo",  // Tipos soportados: button, textfield, checkbox, circleavatar, radio, switch, table, appbar1, card, label, image, timepicker, badge, calendar, container, slider, listtilelist, sidebar, combobox, chip, iconUser, iconSearch, iconLock, iconMenuDeep, iconMenuDots, iconHeart, iconMessage, iconHeadphones, iconLogin, iconLogout, iconAdd, iconTag, iconShare, iconDotsHorizontal, iconPlane, iconImage, iconText, iconEmoji, iconMicrophone, iconArrowUp, iconArrowDown, iconArrowLeft, iconArrowRight, iconArrowUpDown, iconTrash, iconPencil, iconX, iconGoogle
         "x": número, // Coordenada X dentro del área de trabajo (canvas)
         "y": número, // Coordenada Y dentro del área de trabajo (canvas)
         "properties": {
-          "label": "texto", // Solo para button, textfield, label
-          "bg": "#hex", // Solo para button, appbar1, badge, container, sidebar
+          "label": "texto", // Solo para button, textfield, label, chip, badge
+          "bg": "#hex", // Solo para button, appbar1, badge, container, sidebar, chip
           "width": número, // Solo para button, textfield, appbar1, image, container
           "height": número, // Solo para button, textfield, appbar1, image, container
           "borderRadius": número, // Solo para button, textfield, image, container
@@ -29,7 +29,7 @@ Tu respuesta debe ser un JSON válido con la siguiente estructura:
           "step": número, // Solo para slider
           "colorFont": "#hex", // Solo para label
           "position": "texto", // Solo para badge (ej: top-right)
-          "icon": "tipo-icono", // Solo para badge, listtilelist items
+          "icon": "tipo-icono", // Solo para badge, listtilelist items, chip
           "text": "texto", // Solo para badge
           "table": { // Solo para table
             "header": [
