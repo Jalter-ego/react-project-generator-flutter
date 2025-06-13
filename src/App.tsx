@@ -14,7 +14,7 @@ import SidebarPrimary from './components/SidebarPrimary';
 import { dataCombobox } from './constants/dataCombobox';
 import { dataSidebar } from './constants/dataSidebar';
 import { functionsApp } from './lib/functionsApp';
-import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type CreateProject } from './services/figma.service';
+import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type UpdateProject } from './services/figma.service';
 import { socketService } from './services/socket.service';
 import type { ComponentInstance, ScreenType } from './types/CanvasItem';
 
@@ -44,7 +44,7 @@ const defaultProperties: Record<string, ComponentInstance['properties']> = {
 
 export default function App() {
   const { id } = useParams();
-  const [project, setProject] = useState<CreateProject | undefined>(undefined)
+  const [project, setProject] = useState<UpdateProject | undefined>(undefined)
   const [screens, setScreens] = useState<ScreenType[]>(() => {
     const saved = localStorage.getItem('design-screens');
     return saved
@@ -172,9 +172,10 @@ export default function App() {
     }
 
     try {
-      const updateProyect: CreateProject = {
+      const updateProyect: UpdateProject = {
         name: project.name,
         userId: project.userId,
+        editKey: project.editKey,
         screens: screens
       }
       console.log(updateProyect);
