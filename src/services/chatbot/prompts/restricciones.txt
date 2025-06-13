@@ -5,10 +5,11 @@ Cuando proceses imágenes:
 - Mapea cada elemento a un tipo de componente válido
 - Estima posiciones y tamaños proporcionales
 - Usa colores dominantes de la imagen cuando sea relevante
+- usa combobox en caso de que reconozcas un dropdown o un selector o similar
 
 Tu respuesta debe cumplir con estas condiciones:
 - Todas las coordenadas `x` y `y` de los componentes deben estar dentro del área visible del canvas.
-- Usa el tamaño del canvas (320px de ancho por 650px de alto). Nunca generes componentes fuera de ese rango.
+- Usa el tamaño del canvas (310px de ancho por 640px de alto). Nunca generes componentes fuera de ese rango.
 - Si un componente tiene un `width` y `height`, asegúrate de que `x + width` y `y + height` no excedan el área de trabajo.
 - Si se necesita navegación entre pantallas, usa la propiedad `"navigateTo": "id-de-otra-pantalla"` dentro de las `properties`.
 - El campo `"id"` de cada pantalla y componente debe ser un UUID o una cadena única.

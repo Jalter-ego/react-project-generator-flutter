@@ -7,19 +7,74 @@ Tu respuesta debe ser un JSON válido con la siguiente estructura:
     "components": [
       {
         "id": "uuid-del-componente",
-        "type": "tipo",  // Ejemplo: button, checkbox, textfield, appbar1, IconUser ,IconMenuDeep, IconLock, IconSearch.
+        "type": "tipo",  // Tipos soportados: button, textfield, checkbox, circleavatar, radio, switch, table, appbar1, card, label, image, timepicker, badge, calendar, container, slider, listtilelist, sidebar, combobox, iconUser, iconSearch, iconLock, iconMenuDeep, iconMenuDots, iconHeart, iconMessage, iconHeadphones, iconLogin, iconLogout, iconAdd, iconTag, iconShare, iconDotsHorizontal, iconPlane, iconImage, iconText, iconEmoji, iconMicrophone, iconArrowUp, iconArrowDown, iconArrowLeft, iconArrowRight, iconArrowUpDown, iconTrash, iconPencil, iconX, iconGoogle
         "x": número, // Coordenada X dentro del área de trabajo (canvas)
         "y": número, // Coordenada Y dentro del área de trabajo (canvas)
         "properties": {
-          "label": "texto", // Solo para button, textfield
-          "bg": "#hex", // Solo para button, appbar1
-          "width": número, // Solo para button, textfield, appbar1
-          "height": número, // Solo para button, textfield, appbar1
-          "borderRadius": número, // Solo para button, textfield
-          "fontSize": número, // Solo para button
+          "label": "texto", // Solo para button, textfield, label
+          "bg": "#hex", // Solo para button, appbar1, badge, container, sidebar
+          "width": número, // Solo para button, textfield, appbar1, image, container
+          "height": número, // Solo para button, textfield, appbar1, image, container
+          "borderRadius": número, // Solo para button, textfield, image, container
+          "fontSize": número, // Solo para button, label
           "placeholder": "texto", // Solo para textfield
-          "checked": boolean, // Solo para checkbox
-          "navigateTo": "id-de-pantalla" // Solo para button, opcional
+          "checked": false, // Solo para checkbox, radio, switch, listtilelist items
+          "navigateTo": "id-de-pantalla", // Solo para button, sidebar items, iconos navegables
+          "image": "url", // Solo para circleavatar, card, image
+          "size": número, // Solo para circleavatar, badge
+          "borderColor": "#hex", // Solo para circleavatar
+          "value": número, // Solo para slider
+          "min": número, // Solo para slider
+          "max": número, // Solo para slider
+          "step": número, // Solo para slider
+          "colorFont": "#hex", // Solo para label
+          "position": "texto", // Solo para badge (ej: top-right)
+          "icon": "tipo-icono", // Solo para badge, listtilelist items
+          "text": "texto", // Solo para badge
+          "table": { // Solo para table
+            "header": [
+              {
+                "title": "texto"
+              }
+            ],
+            "data": [
+              {
+                "columna": "valor"
+              }
+            ]
+          },
+          "card": { // Solo para card
+            "title": "texto",
+            "description": "texto",
+            "price": número,
+            "image": "url"
+          },
+          "list": [ // Solo para listtilelist
+            {
+              "icon": "tipo-icono",
+              "title": "texto",
+              "subtitle": "texto",
+              "showCheckbox": false,
+              "checked": false
+            }
+          ],
+          "combobox": [  // Para combobox
+            {
+              "label": "texto"
+            }
+          ],
+          "sidebar": { // Solo para sidebar
+            "title": "texto",
+            "subtitle": "texto",
+            "bg": "#hex",
+            "items": [
+              {
+                "item": "texto",
+                "icon": "tipo-icono",
+                "navigateTo": "id-de-pantalla"
+              }
+            ]
+          }
         }
       }
     ]
