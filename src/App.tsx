@@ -4,43 +4,18 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { items } from './assets/itemsComponents';
-import { urlimage, urlImageUser } from './assets/urlImage';
 import FloatingChatbot from './components/chatbot/FloatingChatbot';
 import { DropZone } from './components/DropZone';
 import HeaderDesign from './components/HeaderDesign';
-import { data, header } from './components/library/Table';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
-import { dataCombobox } from './constants/dataCombobox';
-import { dataSidebar } from './constants/dataSidebar';
 import { functionsApp } from './lib/functionsApp';
 import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type UpdateProject } from './services/figma.service';
 import { socketService } from './services/socket.service';
-import type { ComponentInstance, ScreenType } from './types/CanvasItem';
+import type {  ScreenType } from './types/CanvasItem';
+import { functionsAppScreens } from './lib/functionsAppScreens';
+import { defaultProperties } from './constants/defaultProperties';
 
-const defaultProperties: Record<string, ComponentInstance['properties']> = {
-  button: { label: 'Botón', bg: '#45def2', width: 128, height: 32, borderRadius: 12, fontSize: 16 },
-  textfield: { placeholder: 'Campo de texto', width: 232, height: 32, borderRadius: 12 },
-  checkbox: { checked: false },
-  appbar1: { width: 300, height: 32, bg: '#ffffff' },
-  table: { table: { header, data } },
-  card: { card: { title: 'Card Title', image: urlimage, description: 'Card Description', price: 0 } },
-  container: { bg: '#e37', width: 300, height: 200, borderRadius: 12 },
-  label: { label: "Etiqueta", fontSize: 16, colorFont: "#000000" },
-  image: { image: urlimage, width: 120, height: 120, borderRadius: 12, },
-  combobox: { combobox: dataCombobox },
-  switch: { checked: false },
-  radio: { checked: false },
-  chip: { label: 'Input Chips', bg: '#6366F1', icon: 'I', },
-  circleavatar: { image: urlImageUser, size: 80, borderColor: "#ffffff" },
-  slider: { value: 40, min: 0, max: 100, step: 10 },
-  listtilelist: {
-    list: [{ icon: "IconUser", title: "Usuario 1", subtitle: "Subdetalle", showCheckbox: true, checked: false, },],
-  },
-  togglebuttons: { buttons: [{ icon: "IconHeart" }, { icon: "IconUser" },], initialActive: 0 },
-  badge: { label: "3", bg: "#ff3b30", position: "top-right", icon: "IconUser", text: "👽" },
-  sidebar: { sidebar: dataSidebar }
-};
 
 export default function App() {
   const { id } = useParams();
@@ -266,53 +241,15 @@ export default function App() {
   }
   const selectedComponent = currentScreen.components.find(comp => comp.id === selectedComponentId) || null;
 
-  const createNewScreen = () => {
-    const newScreenId = uuidv4();
-    const newScreens = [
-      ...screens,
-      {
-        id: newScreenId,
-        name: `Pantalla ${screens.length + 1}`,
-        components: [],
-      },
-    ];
-    updateWithHistory(newScreens);
-    setCurrentScreenId(newScreenId);
-  };
-
-  const navigateToScreen = (screenId: string) => {
-    if (screens.some(screen => screen.id === screenId)) {
-      setCurrentScreenId(screenId);
-      setSelectedComponentId(null);
-    }
-  };
-
-  const renameScreen = (id: string, newName: string) => {
-    const newScreens = screens.map(screen => {
-      if (screen.id === id) {
-        return { ...screen, name: newName };
-      }
-      return screen;
-    });
-    updateWithHistory(newScreens);
-  };
-
-  const deleteScreen = (id: string) => {
-    if (screens.length <= 1) {
-      alert("Debe haber al menos una pantalla.");
-      return;
-    }
-    const filteredScreens = screens.filter(screen => screen.id !== id);
-    const nextScreen = filteredScreens[0];
-    updateWithHistory(filteredScreens);
-    setCurrentScreenId(nextScreen.id);
-  };
 
   const { undo, redo, exportDesign, deleteComponent, duplicateComponent, updateComponentProperties } = functionsApp
     ({
       historyIndex, setHistoryIndex, setScreens, history, screens
       , currentScreenId, updateWithHistory, selectedComponentId, setSelectedComponentId
     })
+
+  const { createNewScreen,deleteScreen,navigateToScreen,renameScreen } = functionsAppScreens
+  ({ screens, setCurrentScreenId, setSelectedComponentId, updateWithHistory })
 
   const exportToFlutter = async () => {
     try {
