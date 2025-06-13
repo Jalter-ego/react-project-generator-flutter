@@ -1,7 +1,10 @@
 import { IconTrash } from "@/assets/Icons";
+import { ModalCreateProyect } from "@/components/ModalCreateProyect";
+import { ModalJoinProject } from "@/components/ModalJoinProject";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useUserContext } from "@/hooks/userContext";
 import {
     fetchDeleteProject,
@@ -11,8 +14,6 @@ import type { ScreenType } from "@/types/CanvasItem";
 import { useEffect, useState, type SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ModalCreateProyect } from "@/components/ModalCreateProyect";
 
 export interface Project {
     id: string;
@@ -30,6 +31,7 @@ export default function Projects() {
     const [searchQuery, setSearchQuery] = useState("");
     const [sortOption, setSortOption] = useState("name-asc");
     const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
+    const [openJoinModal, setOpenJoinModal] = useState(false);
     const navigate = useNavigate();
     const { user } = useUserContext();
     const userId = user?.id;
@@ -135,6 +137,13 @@ export default function Projects() {
                 <Button onClick={() => setOpenModal(true)} className="bg-primary text-white hover:bg-primary/90">
                     Crear Nuevo Proyecto
                 </Button>
+                <Button
+                    onClick={() => setOpenJoinModal(true)}
+                    variant="outline"
+                    className="border-primary text-primary hover:bg-primary/10"
+                >
+                    Unirse a Proyecto
+                </Button>
                 {selectedProjects.length > 0 && (
                     <Button
                         onClick={deleteSelectedProjects}
@@ -182,11 +191,11 @@ export default function Projects() {
                             </CardHeader>
                             <CardContent>
                                 <div className="w-full h-40 bg-gray-200 rounded mb-4">
-                                        <img
-                                            src={"https://s3-figma-hubfile-images-production.figma.com/hub/file/carousel/img/1be2cbac5be7a9741a4c1cd880e1b12876f015f1/31fff91fe048d92f78564fa324b3098ee844efed"}
-                                            alt={`${project.name} thumbnail`}
-                                            className="w-full h-full object-cover rounded"
-                                        />
+                                    <img
+                                        src={"https://s3-figma-hubfile-images-production.figma.com/hub/file/carousel/img/1be2cbac5be7a9741a4c1cd880e1b12876f015f1/31fff91fe048d92f78564fa324b3098ee844efed"}
+                                        alt={`${project.name} thumbnail`}
+                                        className="w-full h-full object-cover rounded"
+                                    />
                                 </div>
                                 <p className="text-sm text-gray-500 mb-1">
                                     Creacion: {new Date(project.createdAt).toLocaleDateString()}
@@ -203,12 +212,8 @@ export default function Projects() {
                     ))
                 )}
             </div>
-
-            {openModal &&
-                <ModalCreateProyect
-                    setOpenModal={setOpenModal}
-                />
-            }
+            {openJoinModal && <ModalJoinProject onClose={() => setOpenJoinModal(false)} />}
+            {openModal && <ModalCreateProyect setOpenModal={setOpenModal} />}
         </div>
     );
 }

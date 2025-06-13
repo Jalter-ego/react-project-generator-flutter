@@ -7,15 +7,16 @@ import { items } from './assets/itemsComponents';
 import FloatingChatbot from './components/chatbot/FloatingChatbot';
 import { DropZone } from './components/DropZone';
 import HeaderDesign from './components/HeaderDesign';
+import { ShareLinkModal } from './components/ShareLinkModal';
 import SidebarComponents from './components/SidebarComponents';
 import SidebarPrimary from './components/SidebarPrimary';
+import { defaultProperties } from './constants/defaultProperties';
+import { useUserContext } from './hooks/userContext';
 import { functionsApp } from './lib/functionsApp';
+import { functionsAppScreens } from './lib/functionsAppScreens';
 import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type UpdateProject } from './services/figma.service';
 import { socketService } from './services/socket.service';
 import type { ScreenType } from './types/CanvasItem';
-import { functionsAppScreens } from './lib/functionsAppScreens';
-import { defaultProperties } from './constants/defaultProperties';
-import { useUserContext } from './hooks/userContext';
 
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
   const [isDragEnabled, setIsDragEnabled] = useState(true);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isAccessDenied, setIsAccessDenied] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const currentScreen = screens.find(screen => screen.id === currentScreenId) || screens[0];
 
@@ -54,13 +56,14 @@ export default function App() {
   function areScreensEqual(a: ScreenType[], b: ScreenType[]) {
     return JSON.stringify(a) === JSON.stringify(b);
   }
-  const shareProjectLink = () => {
-    if (!id) return;
-    const url = `${window.location.origin}/projects/${id}?editKey=${project?.editKey ?? ''}`;
-    navigator.clipboard.writeText(url)
-      .then(() => toast('📋 Enlace copiado al portapapeles'))
-      .catch(() => alert('Error al copiar el enlace'));
+  const handleShareClick = () => {
+    if (!id || !project?.editKey) {
+      toast.error('No se puede compartir el proyecto en este momento');
+      return;
+    }
+    setShowShareModal(true);
   };
+
   const screensRef = useRef<ScreenType[]>(screens);
   // Actualiza la referencia siempre que cambie `screens`
   useEffect(() => {
@@ -271,6 +274,13 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-gray-900">
+      {showShareModal && id && project?.editKey && (
+        <ShareLinkModal
+          projectId={id}
+          editKey={project.editKey}
+          onClose={() => setShowShareModal(false)}
+        />
+      )}
       {isAccessDenied && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-red-600 text-white p-4 rounded">
@@ -317,8 +327,7 @@ export default function App() {
               duplicateComponent={duplicateComponent}
               screens={screens}
               currentScreenId={currentScreenId}
-              onShare={shareProjectLink}
-
+              onShare={handleShareClick}
             />
           </div>
         </div>
