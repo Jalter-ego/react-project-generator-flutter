@@ -175,7 +175,8 @@ export default function App() {
       const updateProyect: CreateProject = {
         name: project.name,
         userId: project.userId,
-        screens: screens
+        screens: screens,
+        editKey: project.editKey
       }
       console.log(updateProyect);
 
