@@ -27,7 +27,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const decodeUserToken = (token: string) => {
     try {
       const decodedToken: any = jwtDecode(token);  
-      console.log(decodedToken);
       
       const user: User = {
         id: decodedToken.user.id,

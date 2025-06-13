@@ -1,6 +1,6 @@
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { items } from './assets/itemsComponents';
@@ -12,13 +12,17 @@ import SidebarPrimary from './components/SidebarPrimary';
 import { functionsApp } from './lib/functionsApp';
 import { fetchGenerateProyect, fetchProjectById, fetchUpdateProyect, type UpdateProject } from './services/figma.service';
 import { socketService } from './services/socket.service';
-import type {  ScreenType } from './types/CanvasItem';
+import type { ScreenType } from './types/CanvasItem';
 import { functionsAppScreens } from './lib/functionsAppScreens';
 import { defaultProperties } from './constants/defaultProperties';
+import { useUserContext } from './hooks/userContext';
 
 
 export default function App() {
   const { id } = useParams();
+  const { user } = useUserContext()
+  const [searchParams] = useSearchParams();
+  const editKey = searchParams.get('editKey') || '';
   const [project, setProject] = useState<UpdateProject | undefined>(undefined)
   const [screens, setScreens] = useState<ScreenType[]>(() => {
     const saved = localStorage.getItem('design-screens');
@@ -38,6 +42,7 @@ export default function App() {
   const [historyIndex, setHistoryIndex] = useState<number>(0);
   const [isDragEnabled, setIsDragEnabled] = useState(true);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isAccessDenied, setIsAccessDenied] = useState(false);
 
   const currentScreen = screens.find(screen => screen.id === currentScreenId) || screens[0];
 
@@ -51,7 +56,7 @@ export default function App() {
   }
   const shareProjectLink = () => {
     if (!id) return;
-    const url = `${window.location.origin}/editor/${id}`;
+    const url = `${window.location.origin}/projects/${id}?editKey=${project?.editKey ?? ''}`;
     navigator.clipboard.writeText(url)
       .then(() => toast('📋 Enlace copiado al portapapeles'))
       .catch(() => alert('Error al copiar el enlace'));
@@ -67,7 +72,7 @@ export default function App() {
     if (!id) return;
 
     socketService.connect();
-    socketService.joinRoom(id);
+    socketService.joinRoom(id, editKey || project?.editKey || '', user?.id);
 
     socketService.onCanvasUpdated((data) => {
       console.log('📥 Recibido canvas-updated desde servidor', data);
@@ -80,17 +85,35 @@ export default function App() {
       }
     });
 
+    socketService.onCanvasUpdated((data) => {
+      if (isAccessDenied) return;
+      console.log('📥 Recibido canvas-updated desde servidor', data);
+      if (!areScreensEqual(data, screensRef.current)) {
+        console.log('🔁 Aplicando updateScreensFromJSON');
+        lastRemoteScreens.current = data;
+        updateScreensFromJSON(data);
+      }
+    });
+
+    socketService.on('access-denied', (data) => {
+      setIsAccessDenied(true);
+      setIsDragEnabled(false);
+      toast.error(data.message || 'Access denied: Invalid edit key');
+    });
+
     return () => {
-      socketService.offCanvasUpdated(); // 4. Detiene la escucha para evitar duplicaciones
+      socketService.offCanvasUpdated();
+      socketService.disconnect();
     };
-  }, [id]);
+  }, [id, editKey, project?.editKey, user?.id]);
 
   useEffect(() => {
     if (id && lastRemoteScreens.current && !areScreensEqual(screens, lastRemoteScreens.current)) {
+      if (isAccessDenied) return;
       console.log('🛰 Enviando update-canvas', { id, screens });
       socketService.sendCanvasUpdate(id, screens);
     }
-  }, [screens]);
+  }, [screens,isAccessDenied]);
 
   function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
     let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -248,8 +271,8 @@ export default function App() {
       , currentScreenId, updateWithHistory, selectedComponentId, setSelectedComponentId
     })
 
-  const { createNewScreen,deleteScreen,navigateToScreen,renameScreen } = functionsAppScreens
-  ({ screens, setCurrentScreenId, setSelectedComponentId, updateWithHistory })
+  const { createNewScreen, deleteScreen, navigateToScreen, renameScreen } = functionsAppScreens
+    ({ screens, setCurrentScreenId, setSelectedComponentId, updateWithHistory })
 
   const exportToFlutter = async () => {
     try {
@@ -261,6 +284,13 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-gray-900">
+      {isAccessDenied && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-red-600 text-white p-4 rounded">
+            Access Denied: Invalid edit key. Please check the link or contact the project owner.
+          </div>
+        </div>
+      )}
       <DndContext onDragEnd={handleDragEnd}>
         <div className="flex h-screen">
           <SidebarComponents
