@@ -7,6 +7,13 @@ export interface CreateProject {
   screens: any[];
 }
 
+export interface UpdateProject {
+  name: string;
+  userId: string;
+  editKey: string
+  screens: any[];
+}
+
 export const fetchCreateProyect = async (newProject: CreateProject) => {
   const response = await fetch(`${api}/figma`, {
     method: "POST",
@@ -45,7 +52,7 @@ export const fetchDeleteProject = async (id: string) => {
 };
 
 export const fetchUpdateProyect = async (
-  project: CreateProject,
+  project: UpdateProject,
   id: string
 ) => {
   const sanitized = sanitizeProject(project);
@@ -63,7 +70,7 @@ export const fetchUpdateProyect = async (
   return data;
 };
 
-function sanitizeProject(project: CreateProject) {
+function sanitizeProject(project: UpdateProject) {
   return {
     name: project.name,
     userId: project.userId,
