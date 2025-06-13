@@ -119,7 +119,7 @@ export default function Dashboard() {
                                     <CardContent>
                                         <div className="w-full h-32 bg-gray-200 rounded mb-2">
                                                 <img
-                                                    src={'https://s3-figma-hubfile-images-production.figma.com/hub/file/carousel/img/1be2cbac5be7a9741a4c1cd880e1b12876f015f1/31fff91fe048d92f78564fa324b3098ee844efed'}
+                                                    src={'/public/thumbnail.webp'}
                                                     alt={`${project.name} thumbnail`}
                                                     className="w-full h-full object-cover rounded"
                                                 />
