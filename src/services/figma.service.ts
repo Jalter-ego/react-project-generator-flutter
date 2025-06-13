@@ -3,6 +3,7 @@ import { api } from ".";
 export interface CreateProject {
   name: string;
   userId: string;
+  editKey?: string;
   screens: any[];
 }
 
@@ -78,7 +79,7 @@ function sanitizeProject(project: UpdateProject) {
       id: screen.id,
       name: screen.name,
       components: screen.components.map((component: any) => ({
-        id: component.id, 
+        id: component.id,
         type: component.type,
         x: component.x,
         y: component.y,

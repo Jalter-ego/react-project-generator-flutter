@@ -81,21 +81,30 @@ export default function App() {
       .then(() => toast('📋 Enlace copiado al portapapeles'))
       .catch(() => alert('Error al copiar el enlace'));
   };
+  const screensRef = useRef<ScreenType[]>(screens);
+  // Actualiza la referencia siempre que cambie `screens`
+  useEffect(() => {
+    screensRef.current = screens;
+  }, [screens]);
+
+  // Escucha eventos del socket
   useEffect(() => {
     if (!id) return;
 
-    socketService.connect(); // 1. Establece conexión con backend
-    socketService.joinRoom(id); // 2. Se une a la sala del proyecto por su ID
+    socketService.connect();
+    socketService.joinRoom(id);
 
     socketService.onCanvasUpdated((data) => {
-      if (!areScreensEqual(data, screens)) {
-        console.log('🔁 Canvas actualizado desde el servidor');
+      console.log('📥 Recibido canvas-updated desde servidor', data);
+      if (!areScreensEqual(data, screensRef.current)) {
+        console.log('🔁 Aplicando updateScreensFromJSON');
         lastRemoteScreens.current = data;
         updateScreensFromJSON(data);
+      } else {
+        console.log('⚠️ Estado recibido es igual al actual, no se actualiza');
       }
     });
 
-    // Cleanup al desmontar
     return () => {
       socketService.offCanvasUpdated(); // 4. Detiene la escucha para evitar duplicaciones
     };
@@ -103,6 +112,7 @@ export default function App() {
 
   useEffect(() => {
     if (id && lastRemoteScreens.current && !areScreensEqual(screens, lastRemoteScreens.current)) {
+      console.log('🛰 Enviando update-canvas', { id, screens });
       socketService.sendCanvasUpdate(id, screens);
     }
   }, [screens]);
@@ -145,7 +155,7 @@ export default function App() {
     }
     try {
       const data = await fetchProjectById(id);
-      console.log(data);
+      //console.log(data);
 
       setProject(data)
       if (data?.screens && data.screens.length > 0) {

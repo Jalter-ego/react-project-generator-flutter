@@ -22,12 +22,13 @@ class SocketService {
 
   joinRoom(projectId: string) {
     if (this.socket) {
-      this.socket.emit('join-room', projectId);
       console.log(`🧩 Solicitando unirse a la sala: ${projectId}`);
+      this.socket.emit('join-room', { roomId: projectId });
     }
   }
 
   sendCanvasUpdate(projectId: string, screens: ScreenType[]) {
+    console.log('📤 Emitiendo update-canvas a room', projectId, screens);
     if (this.socket) {
       this.socket.emit('update-canvas', {
         roomId: projectId,
