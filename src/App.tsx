@@ -75,17 +75,6 @@ export default function App() {
     socketService.joinRoom(id, editKey || project?.editKey || '', user?.id);
 
     socketService.onCanvasUpdated((data) => {
-      console.log('📥 Recibido canvas-updated desde servidor', data);
-      if (!areScreensEqual(data, screensRef.current)) {
-        console.log('🔁 Aplicando updateScreensFromJSON');
-        lastRemoteScreens.current = data;
-        updateScreensFromJSON(data);
-      } else {
-        console.log('⚠️ Estado recibido es igual al actual, no se actualiza');
-      }
-    });
-
-    socketService.onCanvasUpdated((data) => {
       if (isAccessDenied) return;
       console.log('📥 Recibido canvas-updated desde servidor', data);
       if (!areScreensEqual(data, screensRef.current)) {
@@ -108,12 +97,11 @@ export default function App() {
   }, [id, editKey, project?.editKey, user?.id]);
 
   useEffect(() => {
-    if (id && lastRemoteScreens.current && !areScreensEqual(screens, lastRemoteScreens.current)) {
-      if (isAccessDenied) return;
+    if (id && !isAccessDenied) {
       console.log('🛰 Enviando update-canvas', { id, screens });
       socketService.sendCanvasUpdate(id, screens);
     }
-  }, [screens,isAccessDenied]);
+  }, [screens, isAccessDenied, id]);
 
   function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
     let timeout: ReturnType<typeof setTimeout> | null = null;
@@ -153,7 +141,6 @@ export default function App() {
     }
     try {
       const data = await fetchProjectById(id);
-      //console.log(data);
 
       setProject(data)
       if (data?.screens && data.screens.length > 0) {
@@ -259,7 +246,7 @@ export default function App() {
     } else {
       return;
     }
-
+    console.log('🖌️ Actualizando screens en handleDragEnd', { newScreens });
     updateWithHistory(newScreens);
   }
   const selectedComponent = currentScreen.components.find(comp => comp.id === selectedComponentId) || null;
