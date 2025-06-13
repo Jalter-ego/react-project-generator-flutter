@@ -68,6 +68,12 @@ class SocketService {
     }
   }
 
+  off(event: string, callback?: (...args: any[]) => void) {
+    if (this.socket) {
+      this.socket.off(event, callback);
+    }
+  }
+
   disconnect() {
     if (this.socket) {
       this.socket.disconnect();
